@@ -4,9 +4,31 @@
 
 Workers is the common library for multi-threading in MatrixAI's JavaScript/TypeScript applications. It uses the WebWorker API. Later for Mobile OSes, there are multiple potential solutions here using NativeScript or React Native.
 
-1. Benchmarking
-2. Transfer of buffers and stuff like that
-3. Independent tests and benchmarks. Use benny here...
+Beware that when transferring buffers between the main thread and worker threads, make sure to follow this architecture.
+
+```
+┌───────────────────────┐
+│      Main Thread      │
+│                       │
+│     ┌───────────┐     │
+│     │Node Buffer│     │
+│     └─────┬─────┘     │          ┌────────────────────────┐
+│           │           │          │                        │
+│     Slice │ Copy      │          │      Worker Thread     │
+│           │           │          │                        │
+│  ┌────────▼────────┐  │ Transfer │  ┌──────────────────┐  │
+│  │Input ArrayBuffer├──┼──────────┼──►                  │  │
+│  └─────────────────┘  │          │  └─────────┬────────┘  │
+│                       │          │            │           │
+│                       │          │    Compute │           │
+│                       │          │            │           │
+│  ┌─────────────────┐  │          │  ┌─────────▼────────┐  │
+│  │                 ◄──┼──────────┼──┤Output ArrayBuffer│  │
+│  └─────────────────┘  │ Transfer │  └──────────────────┘  │
+│                       │          │                        │
+│                       │          │                        │
+└───────────────────────┘          └────────────────────────┘
+```
 
 ## Installation
 
