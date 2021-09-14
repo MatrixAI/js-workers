@@ -1,9 +1,9 @@
 import type { WorkerModule } from './worker';
 
+import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
 import WorkerManager from '@/WorkerManager';
 import * as errors from '@/errors';
-import { spawn, Worker } from 'threads';
 
 describe('WorkerManager', () => {
   const logger = new Logger('WorkerManager Test', LogLevel.WARN, [
@@ -108,6 +108,31 @@ describe('WorkerManager', () => {
     expect(es.length).toBe(0);
     await workerManager.stop();
   });
-
-  // Test byte transfer
+  test('zero-copy buffer transfer', async () => {
+    const workerManager = new WorkerManager<WorkerModule>({ logger });
+    await workerManager.start({
+      workerFactory: () => spawn(new Worker('./worker')),
+      cores: 1,
+    });
+    const buffer = await workerManager.call(async (w) => {
+      // Start with a Node Buffer that is "pooled"
+      const inputBuffer = Buffer.from('hello 1');
+      // Slice copy out the ArrayBuffer
+      const input = inputBuffer.buffer.slice(
+        inputBuffer.byteOffset,
+        inputBuffer.byteOffset + inputBuffer.byteLength,
+      );
+      // Zero-copy transfer moves "ownership"
+      // input is detached from main thread
+      // output is detached from worker thread
+      const output = await w.transferBuffer(Transfer(input));
+      // Detached ArrayBuffers have byte lengths of 0
+      expect(input.byteLength).toBe(0);
+      // Zero-copy wrap to use Node Buffer API
+      const outputBuffer = Buffer.from(output);
+      return outputBuffer;
+    });
+    expect(buffer).toEqual(Buffer.from('hello 2'));
+    await workerManager.stop();
+  });
 });

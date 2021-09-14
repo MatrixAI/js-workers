@@ -1,3 +1,5 @@
+import { Transfer, TransferDescriptor } from 'threads';
+
 import { isWorkerRuntime } from 'threads';
 
 /**
@@ -23,6 +25,16 @@ const worker = {
   sleep(ms: number): void {
     Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
     return;
+  },
+  /**
+   * Zero copy demonstration manipulating buffers
+   */
+  transferBuffer(input: ArrayBuffer): TransferDescriptor<ArrayBuffer> {
+    // Zero-copy wrap to use Node Buffer API
+    const inputBuffer = Buffer.from(input);
+    // Set the last character to 2
+    inputBuffer[inputBuffer.byteLength - 1] = '2'.charCodeAt(0);
+    return Transfer(inputBuffer.buffer);
   },
 };
 
