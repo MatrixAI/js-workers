@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "sourceMap": true,
+    "declaration": true,
+    "allowJs": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "target": "ES2016",
+    "baseUrl": "./src",
+    "paths": {
+      "@": ["index"],
+      "@/*": ["*"]
+    },
+    "noEmit": true
+  },
+  "include": [
+    "./src/**/*",
+    "./tests/**/*"
+  ]
+}
