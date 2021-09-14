@@ -63,11 +63,29 @@
 				</a>
 				<p><a href="https://gitlab.com/MatrixAI/open-source/js-workers/commits/master"><img src="https://gitlab.com/MatrixAI/open-source/js-workers/badges/master/pipeline.svg" alt="pipeline status"></a></p>
 				<p>Workers is the common library for multi-threading in MatrixAI&#39;s JavaScript/TypeScript applications. It uses the WebWorker API. Later for Mobile OSes, there are multiple potential solutions here using NativeScript or React Native.</p>
-				<ol>
-					<li>Benchmarking</li>
-					<li>Transfer of buffers and stuff like that</li>
-					<li>Independent tests and benchmarks. Use benny here...</li>
-				</ol>
+				<p>Beware that when transferring buffers between the main thread and worker threads, make sure to follow this architecture.</p>
+				<pre><code><span style="color: #000000">┌───────────────────────┐</span>
+<span style="color: #000000">│      </span><span style="color: #001080">Main</span><span style="color: #000000"> </span><span style="color: #001080">Thread</span><span style="color: #000000">      │</span>
+<span style="color: #000000">│                       │</span>
+<span style="color: #000000">│     ┌───────────┐     │</span>
+<span style="color: #000000">│     │</span><span style="color: #001080">Node</span><span style="color: #000000"> </span><span style="color: #001080">Buffer</span><span style="color: #000000">│     │</span>
+<span style="color: #000000">│     └─────┬─────┘     │          ┌────────────────────────┐</span>
+<span style="color: #000000">│           │           │          │                        │</span>
+<span style="color: #000000">│     </span><span style="color: #001080">Slice</span><span style="color: #000000"> │ </span><span style="color: #001080">Copy</span><span style="color: #000000">      │          │      </span><span style="color: #001080">Worker</span><span style="color: #000000"> </span><span style="color: #001080">Thread</span><span style="color: #000000">     │</span>
+<span style="color: #000000">│           │           │          │                        │</span>
+<span style="color: #000000">│  ┌────────▼────────┐  │ </span><span style="color: #001080">Transfer</span><span style="color: #000000"> │  ┌──────────────────┐  │</span>
+<span style="color: #000000">│  │</span><span style="color: #001080">Input</span><span style="color: #000000"> </span><span style="color: #267F99">ArrayBuffer</span><span style="color: #000000">├──┼──────────┼──►                  │  │</span>
+<span style="color: #000000">│  └─────────────────┘  │          │  └─────────┬────────┘  │</span>
+<span style="color: #000000">│                       │          │            │           │</span>
+<span style="color: #000000">│                       │          │    </span><span style="color: #001080">Compute</span><span style="color: #000000"> │           │</span>
+<span style="color: #000000">│                       │          │            │           │</span>
+<span style="color: #000000">│  ┌─────────────────┐  │          │  ┌─────────▼────────┐  │</span>
+<span style="color: #000000">│  │                 ◄──┼──────────┼──┤</span><span style="color: #001080">Output</span><span style="color: #000000"> </span><span style="color: #267F99">ArrayBuffer</span><span style="color: #000000">│  │</span>
+<span style="color: #000000">│  └─────────────────┘  │ </span><span style="color: #001080">Transfer</span><span style="color: #000000"> │  └──────────────────┘  │</span>
+<span style="color: #000000">│                       │          │                        │</span>
+<span style="color: #000000">│                       │          │                        │</span>
+<span style="color: #000000">└───────────────────────┘          └────────────────────────┘</span>
+</code></pre>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
