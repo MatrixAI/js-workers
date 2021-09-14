@@ -29,12 +29,14 @@ const worker = {
   /**
    * Zero copy demonstration manipulating buffers
    */
-  transferBuffer(input: ArrayBuffer): TransferDescriptor<ArrayBuffer> {
+  transferBuffer(data: ArrayBuffer): TransferDescriptor<ArrayBuffer> {
     // Zero-copy wrap to use Node Buffer API
-    const inputBuffer = Buffer.from(input);
+    const buffer = Buffer.from(data);
     // Set the last character to 2
-    inputBuffer[inputBuffer.byteLength - 1] = '2'.charCodeAt(0);
-    return Transfer(inputBuffer.buffer);
+    buffer[buffer.byteLength - 1] = '2'.charCodeAt(0);
+    // Node Buffer cannot be detached
+    // so we transfer the ArrayBuffer instead
+    return Transfer(data);
   },
 };
 

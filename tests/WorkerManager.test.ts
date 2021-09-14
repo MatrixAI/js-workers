@@ -122,12 +122,17 @@ describe('WorkerManager', () => {
         inputBuffer.byteOffset,
         inputBuffer.byteOffset + inputBuffer.byteLength,
       );
+      // When the underlying ArrayBuffer is detached
+      // this Buffer's byteLength will also become 0
+      const inputBuffer_ = Buffer.from(input);
+      expect(inputBuffer_.byteLength).toBe(input.byteLength);
       // Zero-copy transfer moves "ownership"
       // input is detached from main thread
       // output is detached from worker thread
       const output = await w.transferBuffer(Transfer(input));
       // Detached ArrayBuffers have byte lengths of 0
       expect(input.byteLength).toBe(0);
+      expect(inputBuffer_.byteLength).toBe(0);
       // Zero-copy wrap to use Node Buffer API
       const outputBuffer = Buffer.from(output);
       return outputBuffer;
