@@ -14,9 +14,10 @@
     "build": "tsc -p ./tsconfig.build.json",
     "ts-node": "ts-node -r tsconfig-paths/register",
     "test": "jest",
-    "lint": "eslint '{src,tests}/**/*.{js,ts}'",
-    "lintfix": "eslint '{src,tests}/**/*.{js,ts}' --fix",
-    "docs": "typedoc --out ./docs src && touch ./docs/.nojekyll"
+    "lint": "eslint '{src,tests,benches}/**/*.{js,ts}'",
+    "lintfix": "eslint '{src,tests,benches}/**/*.{js,ts}' --fix",
+    "docs": "typedoc --out ./docs src && touch ./docs/.nojekyll",
+    "bench": "ts-node -r tsconfig-paths/register ./benches"
   },
   "dependencies": {
     "@matrixai/logger": "^2.0.1",

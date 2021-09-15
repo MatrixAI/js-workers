@@ -1,4 +1,4 @@
-import type { WorkerModule } from './worker';
+import type { WorkerModule } from '@/worker';
 
 import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
@@ -18,7 +18,7 @@ describe('WorkerManager', () => {
   test('async start and async stop', async () => {
     const workerManager = new WorkerManager<WorkerModule>({ logger });
     await workerManager.start({
-      workerFactory: () => spawn(new Worker('./worker')),
+      workerFactory: () => spawn(new Worker('../src/worker')),
     });
     expect(await workerManager.call(async () => 1)).toBe(1);
     await workerManager.stop();
@@ -29,7 +29,7 @@ describe('WorkerManager', () => {
   test('start with just 1 worker core', async () => {
     const workerManager = new WorkerManager<WorkerModule>({ logger });
     await workerManager.start({
-      workerFactory: () => spawn(new Worker('./worker')),
+      workerFactory: () => spawn(new Worker('../src/worker')),
       cores: 1,
     });
     expect(await workerManager.call(async () => 1)).toBe(1);
@@ -39,7 +39,7 @@ describe('WorkerManager', () => {
     const mainPid1 = process.pid;
     const workerManager = new WorkerManager<WorkerModule>({ logger });
     await workerManager.start({
-      workerFactory: () => spawn(new Worker('./worker')),
+      workerFactory: () => spawn(new Worker('../src/worker')),
       cores: 1,
     });
     let mainPid2;
@@ -63,7 +63,7 @@ describe('WorkerManager', () => {
     // Use all possible cores
     // if you only use 1 core, this test will be much slower
     await workerManager.start({
-      workerFactory: () => spawn(new Worker('./worker')),
+      workerFactory: () => spawn(new Worker('../src/worker')),
     });
     const task = workerManager.call(async (w) => {
       return await w.sleep(500);
@@ -89,7 +89,7 @@ describe('WorkerManager', () => {
     // Use all possible cores
     // if you only use 1 core, this test will be much slower
     await workerManager.start({
-      workerFactory: () => spawn(new Worker('./worker')),
+      workerFactory: () => spawn(new Worker('../src/worker')),
     });
     const t1 = workerManager.queue(async (w) => await w.sleep(500));
     const t2 = workerManager.queue(async (w) => await w.sleep(500));
@@ -111,7 +111,7 @@ describe('WorkerManager', () => {
   test('zero-copy buffer transfer', async () => {
     const workerManager = new WorkerManager<WorkerModule>({ logger });
     await workerManager.start({
-      workerFactory: () => spawn(new Worker('./worker')),
+      workerFactory: () => spawn(new Worker('../src/worker')),
       cores: 1,
     });
     const buffer = await workerManager.call(async (w) => {
