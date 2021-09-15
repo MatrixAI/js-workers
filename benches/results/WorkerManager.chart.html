@@ -16,7 +16,7 @@
   </head>
   <body>
     <div style="max-width: 800px">
-      <canvas id="chart1631686935777" width="16" height="9"></canvas>
+      <canvas id="chart1631688253795" width="16" height="9"></canvas>
     </div>
     <script>
       const format = (num) => {
@@ -34,15 +34,15 @@
 
         return chunked.map((chunk) => chunk.join("")).join(" ");
       };
-      const ctx1631686935777 = document
-        .getElementById("chart1631686935777")
+      const ctx1631688253795 = document
+        .getElementById("chart1631688253795")
         .getContext("2d");
-      const chart1631686935777 = new Chart(ctx1631686935777, {
+      const chart1631688253795 = new Chart(ctx1631688253795, {
         type: "bar",
         data: {
           labels: [
             "Call Overhead",
-            "JSON serialize of 1 MiB of data",
+            "JSON stringify of 1 MiB of data",
             "Base64 of 1 MiB of data",
             "MD5 Hash of 1 MiB of data",
             "SHA256 Hash of 1 MiB of data",
@@ -50,7 +50,7 @@
           ],
           datasets: [
             {
-              data: [699, 20, 779, 708, 448, 665],
+              data: [738, 19, 598, 708, 447, 633],
               backgroundColor: [
                 "rgba(63, 142, 252, 0.8)",
                 "rgba(116, 165, 127, 0.8)",
