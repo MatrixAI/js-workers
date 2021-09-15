@@ -5,6 +5,8 @@
 /shell.nix
 /release.nix
 /tsconfig.json
+/tsconfig.build.json
+/jest.config.js
 /src
 /tests
 /tmp
