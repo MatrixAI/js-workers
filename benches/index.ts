@@ -9,11 +9,11 @@ async function main(): Promise<void> {
   const systemData = await si.get({
     cpu: '*',
     osInfo: 'platform, distro, release, kernel, arch',
-    system: 'model, manufacturer'
+    system: 'model, manufacturer',
   });
   await fs.promises.writeFile(
     'benches/results/system.json',
-    JSON.stringify(systemData, null, 2)
+    JSON.stringify(systemData, null, 2),
   );
 }
 
