@@ -65,7 +65,7 @@ export default async () => {
       // Then with a basic transfer to, and transfer back
       const inputAB = bytes.buffer.slice(
         bytes.byteOffset,
-        bytes.byteOffset + bytes.byteLength
+        bytes.byteOffset + bytes.byteLength,
       );
       await workerManager.call(async (w) => {
         const outputAB = await w.transferBuffer(Transfer(inputAB));
@@ -74,10 +74,7 @@ export default async () => {
     }),
     b.add('Slice-Copy of 1 MiB of data', () => {
       // Compare this to Transfer Overhead
-      bytes.buffer.slice(
-        bytes.byteOffset,
-        bytes.byteOffset + bytes.byteLength
-      );
+      bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
     }),
     b.cycle(),
     b.complete(),
