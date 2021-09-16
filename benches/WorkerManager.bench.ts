@@ -3,7 +3,7 @@ import type { WorkerModule } from '@/worker';
 import os from 'os';
 import crypto from 'crypto';
 import b from 'benny';
-import { spawn, Worker } from 'threads';
+import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
 import WorkerManager from '@/WorkerManager';
 import packageJson from '../package.json';
@@ -58,6 +58,26 @@ export default async () => {
       return () => {
         hash.update(bytes);
       };
+    }),
+    b.add('Transfer Overhead', async () => {
+      // This is the fastest possible ArrayBuffer transfer
+      // First with a 1 MiB slice-copy
+      // Then with a basic transfer to, and transfer back
+      const inputAB = bytes.buffer.slice(
+        bytes.byteOffset,
+        bytes.byteOffset + bytes.byteLength
+      );
+      await workerManager.call(async (w) => {
+        const outputAB = await w.transferBuffer(Transfer(inputAB));
+        return Buffer.from(outputAB);
+      });
+    }),
+    b.add('Slice-Copy of 1 MiB of data', () => {
+      // Compare this to Transfer Overhead
+      bytes.buffer.slice(
+        bytes.byteOffset,
+        bytes.byteOffset + bytes.byteLength
+      );
     }),
     b.cycle(),
     b.complete(),

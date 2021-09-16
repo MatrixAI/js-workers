@@ -2,9 +2,18 @@
 
 [![pipeline status](https://gitlab.com/MatrixAI/open-source/js-workers/badges/master/pipeline.svg)](https://gitlab.com/MatrixAI/open-source/js-workers/commits/master)
 
-Workers is the common library for multi-threading in MatrixAI's JavaScript/TypeScript applications. It uses the WebWorker API. Later for Mobile OSes, there are multiple potential solutions here using NativeScript or React Native.
+Workers is the library for multi-threading in MatrixAI's JavaScript/TypeScript applications. It is based on top of threads.js.
 
-Beware that when transferring buffers between the main thread and worker threads, make sure to follow this architecture.
+Currently no support for Mobile OSes.
+
+Note that only `ArrayBuffer` can be zero-copy transferred to the worker threads. This means if you are wroking with Node `Buffer` you must first slice and copy the `ArrayBuffer` out of the Node `Buffer`.
+
+```ts
+const b = Buffer.from('hello world');
+const ab = b.buffer.slice(b.byteOffset, b.byteOffset + b.byteLength);
+```
+
+The following diagram is an example architecture of using `ArrayBuffer`:
 
 ```
 ┌───────────────────────┐
@@ -30,6 +39,8 @@ Beware that when transferring buffers between the main thread and worker threads
 └───────────────────────┘          └────────────────────────┘
 ```
 
+See the benchmarks and tests for examples of using this library.
+
 ## Installation
 
 ```sh
@@ -54,6 +65,14 @@ npm run lint
 # automatically fix the source
 npm run lintfix
 ```
+
+## Benchmarks
+
+```sh
+npm run bench
+```
+
+View benchmarks here: https://github.com/MatrixAI/js-workers/blob/master/benches/results/WorkerManager.chart.html with https://raw.githack.com/
 
 ### Docs Generation
 
