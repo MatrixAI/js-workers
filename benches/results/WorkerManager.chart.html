@@ -16,7 +16,7 @@
   </head>
   <body>
     <div style="max-width: 800px">
-      <canvas id="chart1631766991400" width="16" height="9"></canvas>
+      <canvas id="chart1631846498465" width="16" height="9"></canvas>
     </div>
     <script>
       const format = (num) => {
@@ -34,14 +34,16 @@
 
         return chunked.map((chunk) => chunk.join("")).join(" ");
       };
-      const ctx1631766991400 = document
-        .getElementById("chart1631766991400")
+      const ctx1631846498465 = document
+        .getElementById("chart1631846498465")
         .getContext("2d");
-      const chart1631766991400 = new Chart(ctx1631766991400, {
+      const chart1631846498465 = new Chart(ctx1631846498465, {
         type: "bar",
         data: {
           labels: [
             "Call Overhead",
+            "Parallel (2) Call Overhead",
+            "Parallel (2) Queue Overhead",
             "JSON stringify of 1 MiB of data",
             "Base64 of 1 MiB of data",
             "MD5 Hash of 1 MiB of data",
@@ -52,7 +54,7 @@
           ],
           datasets: [
             {
-              data: [698, 21, 744, 707, 443, 651, 642, 3665],
+              data: [681, 175, 351, 21, 728, 712, 439, 649, 657, 2614],
               backgroundColor: [
                 "rgba(63, 142, 252, 0.8)",
                 "rgba(116, 165, 127, 0.8)",
@@ -62,6 +64,8 @@
                 "rgba(113, 128, 172, 0.8)",
                 "rgba(182, 140, 184, 0.8)",
                 "rgba(219, 108, 121, 0.8)",
+                "rgba(189, 79, 108, 0.8)",
+                "rgba(138, 79, 125, 0.8)",
               ],
               borderColor: [
                 "rgba(63, 142, 252, 1)",
@@ -72,6 +76,8 @@
                 "rgba(113, 128, 172, 1)",
                 "rgba(182, 140, 184, 1)",
                 "rgba(219, 108, 121, 1)",
+                "rgba(189, 79, 108, 1)",
+                "rgba(138, 79, 125, 1)",
               ],
               borderWidth: 1,
             },

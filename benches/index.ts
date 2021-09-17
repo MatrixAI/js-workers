@@ -2,7 +2,7 @@
 
 import fs from 'fs';
 import si from 'systeminformation';
-import WorkerManagerBench from './WorkerManager.bench';
+import WorkerManagerBench from './WorkerManager';
 
 async function main(): Promise<void> {
   await WorkerManagerBench();

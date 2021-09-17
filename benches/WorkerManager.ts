@@ -12,7 +12,7 @@ const logger = new Logger('WorkerManager Bench', LogLevel.WARN, [
   new StreamHandler(),
 ]);
 
-export default async () => {
+async function main() {
   const cores = os.cpus().length;
   logger.warn(`Cores: ${cores}`);
   const workerManager = new WorkerManager<WorkerModule>({ logger });
@@ -33,6 +33,30 @@ export default async () => {
       await workerManager.call(async (w) => {
         await w.sleep(0);
       });
+    }),
+    b.add('Parallel (2) Call Overhead', async () => {
+      // Assuming core count greater or equal to 2
+      // the performance should be similar to Call Overhead
+      await Promise.all([
+        workerManager.call(async (w) => {
+          await w.sleep(0);
+        }),
+        workerManager.call(async (w) => {
+          await w.sleep(0);
+        }),
+      ]);
+    }),
+    b.add('Parallel (2) Queue Overhead', async () => {
+      // This should be slightly faster than using call
+      // This avoids an unnecessary wrapper into Promise
+      await Promise.all([
+        workerManager.queue(async (w) => {
+          await w.sleep(0);
+        }),
+        workerManager.queue(async (w) => {
+          await w.sleep(0);
+        }),
+      ]);
     }),
     b.add('JSON stringify of 1 MiB of data', () => {
       JSON.stringify(bytes);
@@ -92,4 +116,10 @@ export default async () => {
   );
   await workerManager.stop();
   return summary;
-};
+}
+
+if (require.main === module) {
+  main();
+}
+
+export default main;
