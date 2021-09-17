@@ -16,7 +16,7 @@
   </head>
   <body>
     <div style="max-width: 800px">
-      <canvas id="chart1631846498465" width="16" height="9"></canvas>
+      <canvas id="chart1631846977276" width="16" height="9"></canvas>
     </div>
     <script>
       const format = (num) => {
@@ -34,10 +34,10 @@
 
         return chunked.map((chunk) => chunk.join("")).join(" ");
       };
-      const ctx1631846498465 = document
-        .getElementById("chart1631846498465")
+      const ctx1631846977276 = document
+        .getElementById("chart1631846977276")
         .getContext("2d");
-      const chart1631846498465 = new Chart(ctx1631846498465, {
+      const chart1631846977276 = new Chart(ctx1631846977276, {
         type: "bar",
         data: {
           labels: [
@@ -54,7 +54,7 @@
           ],
           datasets: [
             {
-              data: [681, 175, 351, 21, 728, 712, 439, 649, 657, 2614],
+              data: [668, 675, 670, 22, 765, 722, 465, 677, 685, 3310],
               backgroundColor: [
                 "rgba(63, 142, 252, 0.8)",
                 "rgba(116, 165, 127, 0.8)",
