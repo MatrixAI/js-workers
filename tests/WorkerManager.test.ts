@@ -9,41 +9,39 @@ describe('WorkerManager', () => {
   const logger = new Logger('WorkerManager Test', LogLevel.WARN, [
     new StreamHandler(),
   ]);
-  test('construction has no side effects', async () => {
-    const workerManager = new WorkerManager<WorkerModule>({ logger });
-    expect(workerManager.call(async () => undefined)).rejects.toThrow(
-      errors.ErrorWorkerManagerNotStarted,
-    );
-  });
-  test('async start and async stop', async () => {
-    const workerManager = new WorkerManager<WorkerModule>({ logger });
-    await workerManager.start({
+  test('async construction and async destroy', async () => {
+    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>({
       workerFactory: () => spawn(new Worker('../src/worker')),
+      logger
     });
+    expect(workerManager.running).toBe(true);
+    expect(workerManager.destroyed).toBe(false);
     expect(await workerManager.call(async () => 1)).toBe(1);
-    await workerManager.stop();
+    await workerManager.destroy();
+    expect(workerManager.running).toBe(false);
+    expect(workerManager.destroyed).toBe(true);
     expect(workerManager.call(async () => 1)).rejects.toThrow(
-      errors.ErrorWorkerManagerNotStarted,
+      errors.ErrorWorkerManagerNotRunning,
     );
   });
   test('start with just 1 worker core', async () => {
-    const workerManager = new WorkerManager<WorkerModule>({ logger });
-    await workerManager.start({
+    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>({
       workerFactory: () => spawn(new Worker('../src/worker')),
       cores: 1,
+      logger
     });
     expect(await workerManager.call(async () => 1)).toBe(1);
-    await workerManager.stop();
+    await workerManager.destroy();
   });
   test('call runs in the main thread', async () => {
     const mainPid1 = process.pid;
-    const workerManager = new WorkerManager<WorkerModule>({ logger });
-    await workerManager.start({
+    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>({
       workerFactory: () => spawn(new Worker('../src/worker')),
       cores: 1,
+      logger
     });
-    let mainPid2;
-    let mainPid3;
+    let mainPid2: number;
+    let mainPid3: number;
     // Only `w.f()` functions are running in the worker threads
     // the callback passed to `call` is still running in the main thread
     expect(
@@ -54,16 +52,16 @@ describe('WorkerManager', () => {
         return await w.isRunningInWorker();
       }),
     ).toBe(true);
-    await workerManager.stop();
-    expect(mainPid2).toBe(mainPid1);
-    expect(mainPid3).toBe(mainPid1);
+    await workerManager.destroy();
+    expect(mainPid2!).toBe(mainPid1);
+    expect(mainPid3!).toBe(mainPid1);
   });
   test('can await a subset of tasks', async () => {
-    const workerManager = new WorkerManager<WorkerModule>({ logger });
     // Use all possible cores
     // if you only use 1 core, this test will be much slower
-    await workerManager.start({
+    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>({
       workerFactory: () => spawn(new Worker('../src/worker')),
+      logger
     });
     const task = workerManager.call(async (w) => {
       return await w.sleep(500);
@@ -82,14 +80,14 @@ describe('WorkerManager', () => {
     expect(rs.every((x) => x === undefined)).toBe(true);
     const r = await task;
     expect(r).toBeUndefined();
-    await workerManager.stop();
+    await workerManager.destroy();
   });
   test('queueing up tasks', async () => {
-    const workerManager = new WorkerManager<WorkerModule>({ logger });
     // Use all possible cores
     // if you only use 1 core, this test will be much slower
-    await workerManager.start({
+    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>({
       workerFactory: () => spawn(new Worker('../src/worker')),
+      logger
     });
     const t1 = workerManager.queue(async (w) => await w.sleep(500));
     const t2 = workerManager.queue(async (w) => await w.sleep(500));
@@ -106,13 +104,13 @@ describe('WorkerManager', () => {
     workerManager.queue(async (w) => await w.sleep(500));
     const es = await workerManager.settled();
     expect(es.length).toBe(0);
-    await workerManager.stop();
+    await workerManager.destroy();
   });
   test('zero-copy buffer transfer', async () => {
-    const workerManager = new WorkerManager<WorkerModule>({ logger });
-    await workerManager.start({
+    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>({
       workerFactory: () => spawn(new Worker('../src/worker')),
       cores: 1,
+      logger
     });
     const buffer = await workerManager.call(async (w) => {
       // Start with a Node Buffer that is "pooled"
@@ -138,6 +136,6 @@ describe('WorkerManager', () => {
       return outputBuffer;
     });
     expect(buffer).toEqual(Buffer.from('hello 2'));
-    await workerManager.stop();
+    await workerManager.destroy();
   });
 });

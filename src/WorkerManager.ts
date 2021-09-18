@@ -10,24 +10,8 @@ import * as errors from './errors';
 class WorkerManager<W extends ModuleMethods>
   implements WorkerManagerInterface<W>
 {
-  protected pool: Pool<ModuleThread<W>>;
-  protected logger: Logger;
-  protected _started: boolean = false;
-
-  constructor({
-    logger,
-  }: {
-    logger?: Logger;
-  } = {}) {
-    this.logger = logger ?? new Logger(this.constructor.name);
-  }
-
-  get started(): boolean {
-    return this._started;
-  }
-
   /**
-   * Starts the WorkerManager
+   * Creates the WorkerManager
    * The workerFactory needs to be a callback:
    * `() => spawn(new Worker(workerPath))`
    * The `spawn` and `Worker` can be imported from `threads`
@@ -36,40 +20,95 @@ class WorkerManager<W extends ModuleMethods>
    * If it is a relative path, it has to be relative to the file location where
    * the function expression is defined
    */
-  public async start({
+  public static async createWorkerManager<W extends ModuleMethods>({
     workerFactory,
     cores,
+    logger
   }: {
     workerFactory: () => Promise<ModuleThread<W>>;
     cores?: number;
-  }) {
-    try {
-      if (this._started) {
-        return;
-      }
-      this.logger.info('Starting WorkerManager');
-      this._started = true;
-      this.pool = Pool(workerFactory, cores);
-      this.logger.info(`Started WorkerManager`);
-    } catch (e) {
-      this._started = false;
-      throw e;
-    }
+    logger?: Logger
+  }): Promise<WorkerManager<W>> {
+    const workerManager = new WorkerManager({
+      workerFactory,
+      cores,
+      logger
+    });
+    return workerManager;
   }
 
-  public async stop() {
-    if (!this._started) {
+  protected pool: Pool<ModuleThread<W>>;
+  protected logger: Logger;
+  protected _running: boolean = false;
+  protected _destroyed: boolean = false;
+
+  protected constructor({
+    workerFactory,
+    cores,
+    logger,
+  }: {
+    workerFactory: () => Promise<ModuleThread<W>>;
+    cores?: number;
+    logger?: Logger;
+  }) {
+    this.logger = logger ?? new Logger(this.constructor.name);
+    this.pool = Pool(workerFactory, cores);
+    this._running = true;
+  }
+
+  get running(): boolean {
+    return this._running;
+  }
+
+  get destroyed(): boolean {
+    return this._destroyed;
+  }
+
+  // public async start({
+  //   workerFactory,
+  //   cores,
+  // }: {
+  //   workerFactory: () => Promise<ModuleThread<W>>;
+  //   cores?: number;
+  // }) {
+  //   try {
+  //     if (this._started) {
+  //       return;
+  //     }
+  //     this.logger.info('Starting WorkerManager');
+  //     this._started = true;
+  //     this.pool = Pool(workerFactory, cores);
+  //     this.logger.info(`Started WorkerManager`);
+  //   } catch (e) {
+  //     this._started = false;
+  //     throw e;
+  //   }
+  // }
+
+  // public async stop() {
+  //   if (!this._started) {
+  //     return;
+  //   }
+  //   this.logger.info('Stopping WorkerManager');
+  //   await this.pool.terminate();
+  //   this._started = false;
+  //   this.logger.info('Stopped WorkerManager');
+  // }
+
+  public async destroy(): Promise<void> {
+    if (this._destroyed) {
       return;
     }
-    this.logger.info('Stopping WorkerManager');
+    this.logger.info('Destroying WorkerManager');
     await this.pool.terminate();
-    this._started = false;
-    this.logger.info('Stopped WorkerManager');
+    this._running = false;
+    this._destroyed = true;
+    this.logger.info('Destroyed WorkerManager');
   }
 
   public async call<T>(f: (worker: ModuleThread<W>) => Promise<T>): Promise<T> {
-    if (!this._started) {
-      throw new errors.ErrorWorkerManagerNotStarted();
+    if (!this._running) {
+      throw new errors.ErrorWorkerManagerNotRunning();
     }
     return await this.pool.queue(f);
   }
@@ -77,22 +116,22 @@ class WorkerManager<W extends ModuleMethods>
   public queue<T>(
     f: (worker: ModuleThread<W>) => Promise<T>,
   ): QueuedTask<ModuleThread<W>, T> {
-    if (!this._started) {
-      throw new errors.ErrorWorkerManagerNotStarted();
+    if (!this._running) {
+      throw new errors.ErrorWorkerManagerNotRunning();
     }
     return this.pool.queue(f);
   }
 
   public async completed(): Promise<void> {
-    if (!this._started) {
-      throw new errors.ErrorWorkerManagerNotStarted();
+    if (!this._running) {
+      throw new errors.ErrorWorkerManagerNotRunning();
     }
     return await this.pool.completed();
   }
 
   public async settled() {
-    if (!this._started) {
-      throw new errors.ErrorWorkerManagerNotStarted();
+    if (!this._running) {
+      throw new errors.ErrorWorkerManagerNotRunning();
     }
     return await this.pool.settled();
   }
