@@ -23,16 +23,16 @@ class WorkerManager<W extends ModuleMethods>
   public static async createWorkerManager<W extends ModuleMethods>({
     workerFactory,
     cores,
-    logger
+    logger,
   }: {
     workerFactory: () => Promise<ModuleThread<W>>;
     cores?: number;
-    logger?: Logger
+    logger?: Logger;
   }): Promise<WorkerManager<W>> {
     const workerManager = new WorkerManager({
       workerFactory,
       cores,
-      logger
+      logger,
     });
     return workerManager;
   }
@@ -63,37 +63,6 @@ class WorkerManager<W extends ModuleMethods>
   get destroyed(): boolean {
     return this._destroyed;
   }
-
-  // public async start({
-  //   workerFactory,
-  //   cores,
-  // }: {
-  //   workerFactory: () => Promise<ModuleThread<W>>;
-  //   cores?: number;
-  // }) {
-  //   try {
-  //     if (this._started) {
-  //       return;
-  //     }
-  //     this.logger.info('Starting WorkerManager');
-  //     this._started = true;
-  //     this.pool = Pool(workerFactory, cores);
-  //     this.logger.info(`Started WorkerManager`);
-  //   } catch (e) {
-  //     this._started = false;
-  //     throw e;
-  //   }
-  // }
-
-  // public async stop() {
-  //   if (!this._started) {
-  //     return;
-  //   }
-  //   this.logger.info('Stopping WorkerManager');
-  //   await this.pool.terminate();
-  //   this._started = false;
-  //   this.logger.info('Stopped WorkerManager');
-  // }
 
   public async destroy(): Promise<void> {
     if (this._destroyed) {

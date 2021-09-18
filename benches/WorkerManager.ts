@@ -15,10 +15,10 @@ const logger = new Logger('WorkerManager Bench', LogLevel.WARN, [
 async function main() {
   const cores = os.cpus().length;
   logger.warn(`Cores: ${cores}`);
-  const workerManager = await WorkerManager.createWorkerManager({
+  const workerManager = await WorkerManager.createWorkerManager<WorkerModule>({
     workerFactory: () => spawn(new Worker('../src/worker')),
     cores,
-    logger
+    logger,
   });
   // 1 MiB worth of data is the ballpark range of data to be worth parallelising
   // 1 KiB of data is still too small
