@@ -23,7 +23,7 @@ class WorkerManager<W extends ModuleMethods>
   public static async createWorkerManager<W extends ModuleMethods>({
     workerFactory,
     cores,
-    logger,
+    logger = new Logger(this.name),
   }: {
     workerFactory: () => Promise<ModuleThread<W>>;
     cores?: number;
@@ -49,9 +49,9 @@ class WorkerManager<W extends ModuleMethods>
   }: {
     workerFactory: () => Promise<ModuleThread<W>>;
     cores?: number;
-    logger?: Logger;
+    logger: Logger;
   }) {
-    this.logger = logger ?? new Logger(this.constructor.name);
+    this.logger = logger;
     this.pool = Pool(workerFactory, cores);
     this._running = true;
   }
