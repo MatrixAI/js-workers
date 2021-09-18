@@ -62,8 +62,13 @@
 					<h1>js-workers</h1>
 				</a>
 				<p><a href="https://gitlab.com/MatrixAI/open-source/js-workers/commits/master"><img src="https://gitlab.com/MatrixAI/open-source/js-workers/badges/master/pipeline.svg" alt="pipeline status"></a></p>
-				<p>Workers is the common library for multi-threading in MatrixAI&#39;s JavaScript/TypeScript applications. It uses the WebWorker API. Later for Mobile OSes, there are multiple potential solutions here using NativeScript or React Native.</p>
-				<p>Beware that when transferring buffers between the main thread and worker threads, make sure to follow this architecture.</p>
+				<p>Workers is the library for multi-threading in MatrixAI&#39;s JavaScript/TypeScript applications. It is based on top of threads.js.</p>
+				<p>Currently no support for Mobile OSes.</p>
+				<p>Note that only <code>ArrayBuffer</code> can be zero-copy transferred to the worker threads. This means if you are wroking with Node <code>Buffer</code> you must first slice and copy the <code>ArrayBuffer</code> out of the Node <code>Buffer</code>.</p>
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">b</span><span style="color: #000000"> = </span><span style="color: #001080">Buffer</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;hello world&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">ab</span><span style="color: #000000"> = </span><span style="color: #001080">b</span><span style="color: #000000">.</span><span style="color: #001080">buffer</span><span style="color: #000000">.</span><span style="color: #795E26">slice</span><span style="color: #000000">(</span><span style="color: #001080">b</span><span style="color: #000000">.</span><span style="color: #001080">byteOffset</span><span style="color: #000000">, </span><span style="color: #001080">b</span><span style="color: #000000">.</span><span style="color: #001080">byteOffset</span><span style="color: #000000"> + </span><span style="color: #001080">b</span><span style="color: #000000">.</span><span style="color: #001080">byteLength</span><span style="color: #000000">);</span>
+</code></pre>
+				<p>The following diagram is an example architecture of using <code>ArrayBuffer</code>:</p>
 				<pre><code><span style="color: #000000">┌───────────────────────┐</span>
 <span style="color: #000000">│      </span><span style="color: #001080">Main</span><span style="color: #000000"> </span><span style="color: #001080">Thread</span><span style="color: #000000">      │</span>
 <span style="color: #000000">│                       │</span>
@@ -86,6 +91,7 @@
 <span style="color: #000000">│                       │          │                        │</span>
 <span style="color: #000000">└───────────────────────┘          └────────────────────────┘</span>
 </code></pre>
+				<p>See the benchmarks and tests for examples of using this library.</p>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
@@ -108,6 +114,12 @@
 <span style="color: #008000"># automatically fix the source</span>
 <span style="color: #000000">npm run lintfix</span>
 </code></pre>
+				<a href="#benchmarks" id="benchmarks" style="color: inherit; text-decoration: none;">
+					<h2>Benchmarks</h2>
+				</a>
+				<pre><code class="language-sh"><span style="color: #000000">npm run bench</span>
+</code></pre>
+				<p>View benchmarks here: <a href="https://github.com/MatrixAI/js-workers/blob/master/benches/results/WorkerManager.chart.html">https://github.com/MatrixAI/js-workers/blob/master/benches/results/WorkerManager.chart.html</a> with <a href="https://raw.githack.com/">https://raw.githack.com/</a></p>
 				<a href="#docs-generation" id="docs-generation" style="color: inherit; text-decoration: none;">
 					<h3>Docs Generation</h3>
 				</a>

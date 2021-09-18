@@ -94,16 +94,17 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-private-protected">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter"><a href="WorkerManager.default.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-protected"><a href="WorkerManager.default.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="WorkerManager.default.html#_started" class="tsd-kind-icon">_started</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="WorkerManager.default.html#_destroyed" class="tsd-kind-icon">_destroyed</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="WorkerManager.default.html#_running" class="tsd-kind-icon">_running</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="WorkerManager.default.html#logger" class="tsd-kind-icon">logger</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="WorkerManager.default.html#pool" class="tsd-kind-icon">pool</a></li>
 							</ul>
@@ -111,7 +112,8 @@
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="WorkerManager.default.html#started" class="tsd-kind-icon">started</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="WorkerManager.default.html#destroyed" class="tsd-kind-icon">destroyed</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="WorkerManager.default.html#running" class="tsd-kind-icon">running</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -119,28 +121,28 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="WorkerManager.default.html#call" class="tsd-kind-icon">call</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="WorkerManager.default.html#completed" class="tsd-kind-icon">completed</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="WorkerManager.default.html#destroy" class="tsd-kind-icon">destroy</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="WorkerManager.default.html#queue" class="tsd-kind-icon">queue</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="WorkerManager.default.html#settled" class="tsd-kind-icon">settled</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="WorkerManager.default.html#start" class="tsd-kind-icon">start</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="WorkerManager.default.html#stop" class="tsd-kind-icon">stop</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="WorkerManager.default.html#createWorkerManager" class="tsd-kind-icon">create<wbr>Worker<wbr>Manager</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-protected">
 					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">new default&lt;W&gt;<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Logger</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WorkerManager.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">W</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">new default&lt;W&gt;<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>cores<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Logger</span><span class="tsd-signature-symbol">; </span>workerFactory<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="WorkerManager.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">W</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L17">src/WorkerManager.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L45">src/WorkerManager.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -152,10 +154,29 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Logger</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>cores<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Logger</span><span class="tsd-signature-symbol">; </span>workerFactory<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> cores<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+										</li>
+										<li class="tsd-parameter">
 											<h5><span class="tsd-flag ts-flagOptional">Optional</span> logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Logger</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>worker<wbr>Factory<span class="tsd-signature-symbol">: </span>function</h5>
+											<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon">worker<wbr>Factory<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ModuleThread</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">W</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<aside class="tsd-sources">
+														<ul>
+															<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L50">src/WorkerManager.ts:50</a></li>
+														</ul>
+													</aside>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ModuleThread</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">W</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+												</li>
+											</ul>
 										</li>
 									</ul>
 								</li>
@@ -168,12 +189,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-					<a name="_started" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _started</h3>
-					<div class="tsd-signature tsd-kind-icon">_started<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+					<a name="_destroyed" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _destroyed</h3>
+					<div class="tsd-signature tsd-kind-icon">_destroyed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L15">src/WorkerManager.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L43">src/WorkerManager.ts:43</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="_running" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> _running</h3>
+					<div class="tsd-signature tsd-kind-icon">_running<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L42">src/WorkerManager.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">logger<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Logger</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L14">src/WorkerManager.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L41">src/WorkerManager.ts:41</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -193,7 +224,7 @@
 					<div class="tsd-signature tsd-kind-icon">pool<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Pool</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ModuleThread</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">W</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L13">src/WorkerManager.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L40">src/WorkerManager.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -201,16 +232,33 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-					<a name="started" class="tsd-anchor"></a>
-					<h3>started</h3>
+					<a name="destroyed" class="tsd-anchor"></a>
+					<h3>destroyed</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> started<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> destroyed<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L25">src/WorkerManager.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L63">src/WorkerManager.ts:63</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="running" class="tsd-anchor"></a>
+					<h3>running</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> running<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L59">src/WorkerManager.ts:59</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -231,7 +279,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/WorkerManagerInterface.default.html">default</a>.<a href="../interfaces/WorkerManagerInterface.default.html#call">call</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L70">src/WorkerManager.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L109">src/WorkerManager.ts:109</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -279,7 +327,25 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/WorkerManagerInterface.default.html">default</a>.<a href="../interfaces/WorkerManagerInterface.default.html#completed">completed</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L86">src/WorkerManager.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L125">src/WorkerManager.ts:125</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="destroy" class="tsd-anchor"></a>
+					<h3>destroy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">destroy<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/WorkerManagerInterface.default.html">default</a>.<a href="../interfaces/WorkerManagerInterface.default.html#destroy">destroy</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L98">src/WorkerManager.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -297,7 +363,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/WorkerManagerInterface.default.html">default</a>.<a href="../interfaces/WorkerManagerInterface.default.html#queue">queue</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L77">src/WorkerManager.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L116">src/WorkerManager.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -345,30 +411,29 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/WorkerManagerInterface.default.html">default</a>.<a href="../interfaces/WorkerManagerInterface.default.html#settled">settled</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L93">src/WorkerManager.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L132">src/WorkerManager.ts:132</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="start" class="tsd-anchor"></a>
-					<h3>start</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">start<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>cores<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>workerFactory<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+					<a name="createWorkerManager" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> create<wbr>Worker<wbr>Manager</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Worker<wbr>Manager&lt;W&gt;<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>cores<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Logger</span><span class="tsd-signature-symbol">; </span>workerFactory<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="WorkerManager.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">W</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/WorkerManagerInterface.default.html">default</a>.<a href="../interfaces/WorkerManagerInterface.default.html#start">start</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L39">src/WorkerManager.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L23">src/WorkerManager.ts:23</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Starts the WorkerManager
+									<p>Creates the WorkerManager
 										The workerFactory needs to be a callback:
 										<code>() =&gt; spawn(new Worker(workerPath))</code>
 										The <code>spawn</code> and <code>Worker</code> can be imported from <code>threads</code>
@@ -378,13 +443,22 @@
 									the function expression is defined</p>
 								</div>
 							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>W<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ModuleMethods</span></h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>cores<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>workerFactory<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>cores<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Logger</span><span class="tsd-signature-symbol">; </span>workerFactory<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> }</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
 											<h5><span class="tsd-flag ts-flagOptional">Optional</span> cores<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> logger<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Logger</span></h5>
 										</li>
 										<li class="tsd-parameter">
 											<h5>worker<wbr>Factory<span class="tsd-signature-symbol">: </span>function</h5>
@@ -395,7 +469,7 @@
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L43">src/WorkerManager.ts:43</a></li>
+															<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/daa24c5/src/WorkerManager.ts#L28">src/WorkerManager.ts:28</a></li>
 														</ul>
 													</aside>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ModuleThread</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">W</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -405,25 +479,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="stop" class="tsd-anchor"></a>
-					<h3>stop</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">stop<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/WorkerManagerInterface.default.html">default</a>.<a href="../interfaces/WorkerManagerInterface.default.html#stop">stop</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/MatrixAI/js-workers/blob/fc455e8/src/WorkerManager.ts#L60">src/WorkerManager.ts:60</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="WorkerManager.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">W</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -462,11 +518,14 @@
 					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="WorkerManager.default.html" class="tsd-kind-icon">default</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-has-type-parameter tsd-is-protected">
 								<a href="WorkerManager.default.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
-								<a href="WorkerManager.default.html#_started" class="tsd-kind-icon">_started</a>
+								<a href="WorkerManager.default.html#_destroyed" class="tsd-kind-icon">_destroyed</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="WorkerManager.default.html#_running" class="tsd-kind-icon">_running</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="WorkerManager.default.html#logger" class="tsd-kind-icon">logger</a>
@@ -475,7 +534,10 @@
 								<a href="WorkerManager.default.html#pool" class="tsd-kind-icon">pool</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="WorkerManager.default.html#started" class="tsd-kind-icon">started</a>
+								<a href="WorkerManager.default.html#destroyed" class="tsd-kind-icon">destroyed</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="WorkerManager.default.html#running" class="tsd-kind-icon">running</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="WorkerManager.default.html#call" class="tsd-kind-icon">call</a>
@@ -483,17 +545,17 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="WorkerManager.default.html#completed" class="tsd-kind-icon">completed</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="WorkerManager.default.html#destroy" class="tsd-kind-icon">destroy</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="WorkerManager.default.html#queue" class="tsd-kind-icon">queue</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="WorkerManager.default.html#settled" class="tsd-kind-icon">settled</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="WorkerManager.default.html#start" class="tsd-kind-icon">start</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="WorkerManager.default.html#stop" class="tsd-kind-icon">stop</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+								<a href="WorkerManager.default.html#createWorkerManager" class="tsd-kind-icon">create<wbr>Worker<wbr>Manager</a>
 							</li>
 						</ul>
 					</li>
