@@ -1,9 +1,10 @@
 import type { WorkerModule } from '@/worker';
-
+import os from 'os';
 import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
 import WorkerManager from '@/WorkerManager';
 import * as errors from '@/errors';
+import * as testUtils from './utils';
 
 describe('WorkerManager', () => {
   const logger = new Logger('WorkerManager Test', LogLevel.WARN, [
@@ -26,7 +27,25 @@ describe('WorkerManager', () => {
       errors.ErrorWorkerManagerNotRunning,
     );
   });
-  test('start with just 1 worker core', async () => {
+  test('starting with 0 worker cores is useless', async () => {
+    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>(
+      {
+        workerFactory: () => spawn(new Worker('../src/worker')),
+        cores: 0,
+        logger,
+      },
+    );
+    // The call will never resolve, so we timeout in 1 second
+    expect(
+      await Promise.race([
+        workerManager.call(async () => 1),
+        testUtils.sleep(1000),
+      ]),
+    ).not.toBe(1);
+    // Force destory because of the pending call that never resolves
+    await workerManager.destroy({ force: true });
+  });
+  test('start with 1 worker core', async () => {
     const workerManager = await WorkerManager.createWorkerManager<WorkerModule>(
       {
         workerFactory: () => spawn(new Worker('../src/worker')),

@@ -19,6 +19,8 @@ class WorkerManager<W extends ModuleMethods>
    * The `workerPath` can be either an absolute path or relative path
    * If it is a relative path, it has to be relative to the file location where
    * the function expression is defined
+   * If `cores` is set to 0, this creates a useless worker pool
+   * Use `undefined` to mean using all cores
    */
   public static async createWorkerManager<W extends ModuleMethods>({
     workerFactory,
@@ -64,12 +66,14 @@ class WorkerManager<W extends ModuleMethods>
     return this._destroyed;
   }
 
-  public async destroy(): Promise<void> {
+  public async destroy({
+    force = false,
+  }: { force?: boolean } = {}): Promise<void> {
     if (this._destroyed) {
       return;
     }
     this.logger.info('Destroying WorkerManager');
-    await this.pool.terminate();
+    await this.pool.terminate(force);
     this._running = false;
     this._destroyed = true;
     this.logger.info('Destroyed WorkerManager');
