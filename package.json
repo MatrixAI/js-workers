@@ -1,6 +1,6 @@
 {
   "name": "@matrixai/workers",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "author": "Roger Qiu",
   "description": "Multithreaded Workers",
   "license": "Apache-2.0",
