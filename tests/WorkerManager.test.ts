@@ -1,5 +1,4 @@
 import type { WorkerModule } from '@/worker';
-import os from 'os';
 import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
 import WorkerManager from '@/WorkerManager';
