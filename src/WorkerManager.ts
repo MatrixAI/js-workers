@@ -31,11 +31,13 @@ class WorkerManager<W extends ModuleMethods>
     cores?: number;
     logger?: Logger;
   }): Promise<WorkerManager<W>> {
+    logger.info('Creating WorkerManager');
     const workerManager = new WorkerManager({
       workerFactory,
       cores,
       logger,
     });
+    logger.info('Created WorkerManager');
     return workerManager;
   }
 
