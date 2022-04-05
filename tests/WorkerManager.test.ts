@@ -1,6 +1,7 @@
 import type { WorkerModule } from '@/worker';
 import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
+import { destroyed } from '@matrixai/async-init';
 import WorkerManager from '@/WorkerManager';
 import * as errors from '@/errors';
 import * as testUtils from './utils';
@@ -16,14 +17,12 @@ describe('WorkerManager', () => {
         logger,
       },
     );
-    expect(workerManager.running).toBe(true);
-    expect(workerManager.destroyed).toBe(false);
+    expect(workerManager[destroyed]).toBe(false);
     expect(await workerManager.call(async () => 1)).toBe(1);
     await workerManager.destroy();
-    expect(workerManager.running).toBe(false);
-    expect(workerManager.destroyed).toBe(true);
+    expect(workerManager[destroyed]).toBe(true);
     expect(workerManager.call(async () => 1)).rejects.toThrow(
-      errors.ErrorWorkerManagerNotRunning,
+      errors.ErrorWorkerManagerDestroyed,
     );
   });
   test('starting with 0 worker cores is useless', async () => {
