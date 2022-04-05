@@ -1,7 +1,11 @@
-import { CustomError } from 'ts-custom-error';
+import { AbstractError } from '@matrixai/errors';
 
-class ErrorWorkerManager extends CustomError {}
+class ErrorWorkerManager<T> extends AbstractError<T> {
+  static description = 'WorkerManager error';
+}
 
-class ErrorWorkerManagerNotRunning extends ErrorWorkerManager {}
+class ErrorWorkerManagerDestroyed<T> extends ErrorWorkerManager<T> {
+  static description = 'WorkerManager is destroyed';
+}
 
-export { ErrorWorkerManager, ErrorWorkerManagerNotRunning };
+export { ErrorWorkerManager, ErrorWorkerManagerDestroyed };

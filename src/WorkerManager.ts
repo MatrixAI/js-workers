@@ -1,12 +1,13 @@
 import type { ModuleThread } from 'threads';
 import type { ModuleMethods } from 'threads/dist/types/master';
 import type { QueuedTask } from 'threads/dist/master/pool-types';
-
 import { Pool } from 'threads';
 import Logger from '@matrixai/logger';
+import { CreateDestroy, ready } from '@matrixai/async-init/dist/CreateDestroy';
 import WorkerManagerInterface from './WorkerManagerInterface';
 import * as errors from './errors';
 
+@CreateDestroy()
 class WorkerManager<W extends ModuleMethods>
   implements WorkerManagerInterface<W>
 {
@@ -43,10 +44,8 @@ class WorkerManager<W extends ModuleMethods>
 
   protected pool: Pool<ModuleThread<W>>;
   protected logger: Logger;
-  protected _running: boolean = false;
-  protected _destroyed: boolean = false;
 
-  protected constructor({
+  public constructor({
     workerFactory,
     cores,
     logger,
@@ -57,57 +56,35 @@ class WorkerManager<W extends ModuleMethods>
   }) {
     this.logger = logger;
     this.pool = Pool(workerFactory, cores);
-    this._running = true;
-  }
-
-  get running(): boolean {
-    return this._running;
-  }
-
-  get destroyed(): boolean {
-    return this._destroyed;
   }
 
   public async destroy({
     force = false,
   }: { force?: boolean } = {}): Promise<void> {
-    if (this._destroyed) {
-      return;
-    }
     this.logger.info('Destroying WorkerManager');
     await this.pool.terminate(force);
-    this._running = false;
-    this._destroyed = true;
     this.logger.info('Destroyed WorkerManager');
   }
 
+  @ready(new errors.ErrorWorkerManagerDestroyed())
   public async call<T>(f: (worker: ModuleThread<W>) => Promise<T>): Promise<T> {
-    if (!this._running) {
-      throw new errors.ErrorWorkerManagerNotRunning();
-    }
     return await this.pool.queue(f);
   }
 
+  @ready(new errors.ErrorWorkerManagerDestroyed())
   public queue<T>(
     f: (worker: ModuleThread<W>) => Promise<T>,
   ): QueuedTask<ModuleThread<W>, T> {
-    if (!this._running) {
-      throw new errors.ErrorWorkerManagerNotRunning();
-    }
     return this.pool.queue(f);
   }
 
+  @ready(new errors.ErrorWorkerManagerDestroyed())
   public async completed(): Promise<void> {
-    if (!this._running) {
-      throw new errors.ErrorWorkerManagerNotRunning();
-    }
     return await this.pool.completed();
   }
 
+  @ready(new errors.ErrorWorkerManagerDestroyed())
   public async settled() {
-    if (!this._running) {
-      throw new errors.ErrorWorkerManagerNotRunning();
-    }
     return await this.pool.settled();
   }
 }
