@@ -1,197 +1,48 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@matrixai/workers</title>
-	<meta name="description" content="Documentation for @matrixai/workers">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-	<script async src="assets/js/search.js" id="search-script"></script>
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">@matrixai/workers</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<h1>@matrixai/workers</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#js-workers" id="js-workers" style="color: inherit; text-decoration: none;">
-					<h1>js-workers</h1>
-				</a>
-				<p><a href="https://gitlab.com/MatrixAI/open-source/js-workers/commits/master"><img src="https://gitlab.com/MatrixAI/open-source/js-workers/badges/master/pipeline.svg" alt="pipeline status"></a></p>
-				<p>Workers is the library for multi-threading in MatrixAI&#39;s JavaScript/TypeScript applications. It is based on top of threads.js.</p>
-				<p>Currently no support for Mobile OSes.</p>
-				<p>Note that only <code>ArrayBuffer</code> can be zero-copy transferred to the worker threads. This means if you are wroking with Node <code>Buffer</code> you must first slice and copy the <code>ArrayBuffer</code> out of the Node <code>Buffer</code>.</p>
-				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">b</span><span style="color: #000000"> = </span><span style="color: #001080">Buffer</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;hello world&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">ab</span><span style="color: #000000"> = </span><span style="color: #001080">b</span><span style="color: #000000">.</span><span style="color: #001080">buffer</span><span style="color: #000000">.</span><span style="color: #795E26">slice</span><span style="color: #000000">(</span><span style="color: #001080">b</span><span style="color: #000000">.</span><span style="color: #001080">byteOffset</span><span style="color: #000000">, </span><span style="color: #001080">b</span><span style="color: #000000">.</span><span style="color: #001080">byteOffset</span><span style="color: #000000"> + </span><span style="color: #001080">b</span><span style="color: #000000">.</span><span style="color: #001080">byteLength</span><span style="color: #000000">);</span>
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@matrixai/workers</title><meta name="description" content="Documentation for @matrixai/workers"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@matrixai/workers</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>@matrixai/workers </h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#js-workers" id="js-workers" style="color: inherit; text-decoration: none;">
+  <h1>js-workers</h1>
+</a>
+<p><a href="https://gitlab.com/MatrixAI/open-source/js-workers/commits/master"><img src="https://gitlab.com/MatrixAI/open-source/js-workers/badges/master/pipeline.svg" alt="pipeline status"></a></p>
+<p>Workers is the library for multi-threading in MatrixAI&#39;s JavaScript/TypeScript applications. It is based on top of threads.js.</p>
+<p>Currently no support for Mobile OSes.</p>
+<p>Note that only <code>ArrayBuffer</code> can be zero-copy transferred to the worker threads. This means if you are wroking with Node <code>Buffer</code> you must first slice and copy the <code>ArrayBuffer</code> out of the Node <code>Buffer</code>.</p>
+<pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">b</span><span class="hl-1"> = </span><span class="hl-3">Buffer</span><span class="hl-1">.</span><span class="hl-4">from</span><span class="hl-1">(</span><span class="hl-5">&#39;hello world&#39;</span><span class="hl-1">);</span><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">ab</span><span class="hl-1"> = </span><span class="hl-3">b</span><span class="hl-1">.</span><span class="hl-3">buffer</span><span class="hl-1">.</span><span class="hl-4">slice</span><span class="hl-1">(</span><span class="hl-3">b</span><span class="hl-1">.</span><span class="hl-3">byteOffset</span><span class="hl-1">, </span><span class="hl-3">b</span><span class="hl-1">.</span><span class="hl-3">byteOffset</span><span class="hl-1"> + </span><span class="hl-3">b</span><span class="hl-1">.</span><span class="hl-3">byteLength</span><span class="hl-1">);</span>
 </code></pre>
-				<p>The following diagram is an example architecture of using <code>ArrayBuffer</code>:</p>
-				<pre><code><span style="color: #000000">┌───────────────────────┐</span>
-<span style="color: #000000">│      </span><span style="color: #001080">Main</span><span style="color: #000000"> </span><span style="color: #001080">Thread</span><span style="color: #000000">      │</span>
-<span style="color: #000000">│                       │</span>
-<span style="color: #000000">│     ┌───────────┐     │</span>
-<span style="color: #000000">│     │</span><span style="color: #001080">Node</span><span style="color: #000000"> </span><span style="color: #001080">Buffer</span><span style="color: #000000">│     │</span>
-<span style="color: #000000">│     └─────┬─────┘     │          ┌────────────────────────┐</span>
-<span style="color: #000000">│           │           │          │                        │</span>
-<span style="color: #000000">│     </span><span style="color: #001080">Slice</span><span style="color: #000000"> │ </span><span style="color: #001080">Copy</span><span style="color: #000000">      │          │      </span><span style="color: #001080">Worker</span><span style="color: #000000"> </span><span style="color: #001080">Thread</span><span style="color: #000000">     │</span>
-<span style="color: #000000">│           │           │          │                        │</span>
-<span style="color: #000000">│  ┌────────▼────────┐  │ </span><span style="color: #001080">Transfer</span><span style="color: #000000"> │  ┌──────────────────┐  │</span>
-<span style="color: #000000">│  │</span><span style="color: #001080">Input</span><span style="color: #000000"> </span><span style="color: #267F99">ArrayBuffer</span><span style="color: #000000">├──┼──────────┼──►                  │  │</span>
-<span style="color: #000000">│  └─────────────────┘  │          │  └─────────┬────────┘  │</span>
-<span style="color: #000000">│                       │          │            │           │</span>
-<span style="color: #000000">│                       │          │    </span><span style="color: #001080">Compute</span><span style="color: #000000"> │           │</span>
-<span style="color: #000000">│                       │          │            │           │</span>
-<span style="color: #000000">│  ┌─────────────────┐  │          │  ┌─────────▼────────┐  │</span>
-<span style="color: #000000">│  │                 ◄──┼──────────┼──┤</span><span style="color: #001080">Output</span><span style="color: #000000"> </span><span style="color: #267F99">ArrayBuffer</span><span style="color: #000000">│  │</span>
-<span style="color: #000000">│  └─────────────────┘  │ </span><span style="color: #001080">Transfer</span><span style="color: #000000"> │  └──────────────────┘  │</span>
-<span style="color: #000000">│                       │          │                        │</span>
-<span style="color: #000000">│                       │          │                        │</span>
-<span style="color: #000000">└───────────────────────┘          └────────────────────────┘</span>
+<p>The following diagram is an example architecture of using <code>ArrayBuffer</code>:</p>
+<pre><code><span class="hl-1">┌───────────────────────┐</span><br/><span class="hl-1">│      </span><span class="hl-3">Main</span><span class="hl-1"> </span><span class="hl-3">Thread</span><span class="hl-1">      │</span><br/><span class="hl-1">│                       │</span><br/><span class="hl-1">│     ┌───────────┐     │</span><br/><span class="hl-1">│     │</span><span class="hl-3">Node</span><span class="hl-1"> </span><span class="hl-3">Buffer</span><span class="hl-1">│     │</span><br/><span class="hl-1">│     └─────┬─────┘     │          ┌────────────────────────┐</span><br/><span class="hl-1">│           │           │          │                        │</span><br/><span class="hl-1">│     </span><span class="hl-3">Slice</span><span class="hl-1"> │ </span><span class="hl-3">Copy</span><span class="hl-1">      │          │      </span><span class="hl-3">Worker</span><span class="hl-1"> </span><span class="hl-3">Thread</span><span class="hl-1">     │</span><br/><span class="hl-1">│           │           │          │                        │</span><br/><span class="hl-1">│  ┌────────▼────────┐  │ </span><span class="hl-3">Transfer</span><span class="hl-1"> │  ┌──────────────────┐  │</span><br/><span class="hl-1">│  │</span><span class="hl-3">Input</span><span class="hl-1"> </span><span class="hl-6">ArrayBuffer</span><span class="hl-1">├──┼──────────┼──►                  │  │</span><br/><span class="hl-1">│  └─────────────────┘  │          │  └─────────┬────────┘  │</span><br/><span class="hl-1">│                       │          │            │           │</span><br/><span class="hl-1">│                       │          │    </span><span class="hl-3">Compute</span><span class="hl-1"> │           │</span><br/><span class="hl-1">│                       │          │            │           │</span><br/><span class="hl-1">│  ┌─────────────────┐  │          │  ┌─────────▼────────┐  │</span><br/><span class="hl-1">│  │                 ◄──┼──────────┼──┤</span><span class="hl-3">Output</span><span class="hl-1"> </span><span class="hl-6">ArrayBuffer</span><span class="hl-1">│  │</span><br/><span class="hl-1">│  └─────────────────┘  │ </span><span class="hl-3">Transfer</span><span class="hl-1"> │  └──────────────────┘  │</span><br/><span class="hl-1">│                       │          │                        │</span><br/><span class="hl-1">│                       │          │                        │</span><br/><span class="hl-1">└───────────────────────┘          └────────────────────────┘</span>
 </code></pre>
-				<p>See the benchmarks and tests for examples of using this library.</p>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
-				</a>
-				<pre><code class="language-sh"><span style="color: #000000">npm install --save @matrixai/workers</span>
+<p>See the benchmarks and tests for examples of using this library.</p>
+
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2>Installation</h2>
+</a>
+<pre><code class="language-sh"><span class="hl-1">npm install --save @matrixai/workers</span>
 </code></pre>
-				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
-					<h2>Development</h2>
-				</a>
-				<p>Run <code>nix-shell</code>, and once you&#39;re inside, you can use:</p>
-				<pre><code class="language-sh"><span style="color: #008000"># install (or reinstall packages from package.json)</span>
-<span style="color: #000000">npm install</span>
-<span style="color: #008000"># build the dist</span>
-<span style="color: #000000">npm run build</span>
-<span style="color: #008000"># run the repl (this allows you to import from ./src)</span>
-<span style="color: #000000">npm run ts-node</span>
-<span style="color: #008000"># run the tests</span>
-<span style="color: #000000">npm run </span><span style="color: #795E26">test</span>
-<span style="color: #008000"># lint the source code</span>
-<span style="color: #000000">npm run lint</span>
-<span style="color: #008000"># automatically fix the source</span>
-<span style="color: #000000">npm run lintfix</span>
+
+<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+  <h2>Development</h2>
+</a>
+<p>Run <code>nix-shell</code>, and once you&#39;re inside, you can use:</p>
+<pre><code class="language-sh"><span class="hl-7"># install (or reinstall packages from package.json)</span><br/><span class="hl-1">npm install</span><br/><span class="hl-7"># build the dist</span><br/><span class="hl-1">npm run build</span><br/><span class="hl-7"># run the repl (this allows you to import from ./src)</span><br/><span class="hl-1">npm run ts-node</span><br/><span class="hl-7"># run the tests</span><br/><span class="hl-1">npm run </span><span class="hl-4">test</span><br/><span class="hl-7"># lint the source code</span><br/><span class="hl-1">npm run lint</span><br/><span class="hl-7"># automatically fix the source</span><br/><span class="hl-1">npm run lintfix</span>
 </code></pre>
-				<a href="#benchmarks" id="benchmarks" style="color: inherit; text-decoration: none;">
-					<h2>Benchmarks</h2>
-				</a>
-				<pre><code class="language-sh"><span style="color: #000000">npm run bench</span>
+
+<a href="#benchmarks" id="benchmarks" style="color: inherit; text-decoration: none;">
+  <h2>Benchmarks</h2>
+</a>
+<pre><code class="language-sh"><span class="hl-1">npm run bench</span>
 </code></pre>
-				<p>View benchmarks here: <a href="https://github.com/MatrixAI/js-workers/blob/master/benches/results/WorkerManager.chart.html">https://github.com/MatrixAI/js-workers/blob/master/benches/results/WorkerManager.chart.html</a> with <a href="https://raw.githack.com/">https://raw.githack.com/</a></p>
-				<a href="#docs-generation" id="docs-generation" style="color: inherit; text-decoration: none;">
-					<h3>Docs Generation</h3>
-				</a>
-				<pre><code class="language-sh"><span style="color: #000000">npm run docs</span>
+<p>View benchmarks here: <a href="https://github.com/MatrixAI/js-workers/blob/master/benches/results/WorkerManager.chart.html">https://github.com/MatrixAI/js-workers/blob/master/benches/results/WorkerManager.chart.html</a> with <a href="https://raw.githack.com/">https://raw.githack.com/</a></p>
+
+<a href="#docs-generation" id="docs-generation" style="color: inherit; text-decoration: none;">
+  <h3>Docs Generation</h3>
+</a>
+<pre><code class="language-sh"><span class="hl-1">npm run docs</span>
 </code></pre>
-				<p>See the docs at: <a href="https://matrixai.github.io/js-workers/">https://matrixai.github.io/js-workers/</a></p>
-				<a href="#publishing" id="publishing" style="color: inherit; text-decoration: none;">
-					<h3>Publishing</h3>
-				</a>
-				<pre><code class="language-sh"><span style="color: #008000"># npm login</span>
-<span style="color: #000000">npm version patch </span><span style="color: #008000"># major/minor/patch</span>
-<span style="color: #000000">npm run build</span>
-<span style="color: #000000">npm publish --access public</span>
-<span style="color: #000000">git push</span>
-<span style="color: #000000">git push --tags</span>
+<p>See the docs at: <a href="https://matrixai.github.io/js-workers/">https://matrixai.github.io/js-workers/</a></p>
+
+<a href="#publishing" id="publishing" style="color: inherit; text-decoration: none;">
+  <h3>Publishing</h3>
+</a>
+<pre><code class="language-sh"><span class="hl-7"># npm login</span><br/><span class="hl-1">npm version patch </span><span class="hl-7"># major/minor/patch</span><br/><span class="hl-1">npm run build</span><br/><span class="hl-1">npm publish --access public</span><br/><span class="hl-1">git push</span><br/><span class="hl-1">git push --tags</span>
 </code></pre>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class=" ">
-						<a href="modules.html">Modules</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/WorkerManager.html">Worker<wbr>Manager</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/WorkerManagerInterface.html">Worker<wbr>Manager<wbr>Interface</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/errors.html">errors</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/index.html">index</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/worker.html">worker</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/workerModule.html">worker<wbr>Module</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-</body>
-</html>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li><li class=" tsd-kind-namespace"><a href="modules/errors.html">errors</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/WorkerManager.html" class="tsd-kind-icon">Worker<wbr/>Manager</a></li><li class="tsd-kind-interface tsd-has-type-parameter"><a href="interfaces/WorkerManagerInterface.html" class="tsd-kind-icon">Worker<wbr/>Manager<wbr/>Interface</a></li><li class="tsd-kind-type-alias"><a href="modules.html#WorkerModule" class="tsd-kind-icon">Worker<wbr/>Module</a></li><li class="tsd-kind-variable"><a href="modules.html#workerModule" class="tsd-kind-icon">worker<wbr/>Module</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
