@@ -4,7 +4,7 @@ import type { QueuedTask } from 'threads/dist/master/pool-types';
 import { Pool } from 'threads';
 import Logger from '@matrixai/logger';
 import { CreateDestroy, ready } from '@matrixai/async-init/dist/CreateDestroy';
-import WorkerManagerInterface from './WorkerManagerInterface';
+import type WorkerManagerInterface from './WorkerManagerInterface';
 import * as errors from './errors';
 
 @CreateDestroy()

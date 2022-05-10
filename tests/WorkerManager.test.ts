@@ -21,7 +21,7 @@ describe('WorkerManager', () => {
     expect(await workerManager.call(async () => 1)).toBe(1);
     await workerManager.destroy();
     expect(workerManager[destroyed]).toBe(true);
-    expect(workerManager.call(async () => 1)).rejects.toThrow(
+    void expect(workerManager.call(async () => 1)).rejects.toThrow(
       errors.ErrorWorkerManagerDestroyed,
     );
   });
@@ -125,10 +125,10 @@ describe('WorkerManager', () => {
     expect(await t2).toBeUndefined();
     expect(await t3).toBeUndefined();
     expect(await t4).toBeUndefined();
-    workerManager.queue(async (w) => await w.sleep(500));
-    workerManager.queue(async (w) => await w.sleep(500));
-    workerManager.queue(async (w) => await w.sleep(500));
-    workerManager.queue(async (w) => await w.sleep(500));
+    void workerManager.queue(async (w) => await w.sleep(500));
+    void workerManager.queue(async (w) => await w.sleep(500));
+    void workerManager.queue(async (w) => await w.sleep(500));
+    void workerManager.queue(async (w) => await w.sleep(500));
     const es = await workerManager.settled();
     expect(es.length).toBe(0);
     await workerManager.destroy();
