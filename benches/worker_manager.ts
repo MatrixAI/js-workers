@@ -1,12 +1,13 @@
 import type { WorkerModule } from '@/worker';
 
 import os from 'os';
+import path from 'path';
 import crypto from 'crypto';
 import b from 'benny';
 import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
 import WorkerManager from '@/WorkerManager';
-import packageJson from '../package.json';
+import { suiteCommon } from './utils/utils';
 
 const logger = new Logger('WorkerManager Bench', LogLevel.WARN, [
   new StreamHandler(),
@@ -24,7 +25,7 @@ async function main() {
   // 1 KiB of data is still too small
   const bytes = crypto.randomBytes(1024 * 1024);
   const summary = await b.suite(
-    'WorkerManager',
+    path.basename(__filename, path.extname(__filename)),
     b.add('Call Overhead', async () => {
       // This calls a noop, this will show the overhead costs
       // All parallelised operation can never be faster than this
@@ -100,19 +101,7 @@ async function main() {
       // Compare this to Transfer Overhead
       bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
     }),
-    b.cycle(),
-    b.complete(),
-    b.save({
-      file: 'WorkerManager',
-      folder: 'benches/results',
-      version: packageJson.version,
-      details: true,
-    }),
-    b.save({
-      file: 'WorkerManager',
-      folder: 'benches/results',
-      format: 'chart.html',
-    }),
+    ...suiteCommon,
   );
   await workerManager.destroy();
   return summary;
