@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@matrixai/async-init": "^1.7.3",
-    "@matrixai/logger": "^2.1.1",
+    "@matrixai/logger": "^3.0.0",
     "@matrixai/errors": "^1.1.1",
     "threads": "^1.6.5"
   },
