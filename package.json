@@ -29,7 +29,6 @@
     "threads": "^1.6.5"
   },
   "devDependencies": {
-    "@swc/core": "^1.2.215",
     "@types/jest": "^28.1.3",
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.23.0",

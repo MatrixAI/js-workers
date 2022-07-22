@@ -31,7 +31,6 @@
   ],
   "ts-node": {
     "require": ["tsconfig-paths/register"],
-    "transpileOnly": true,
-    "swc": true
+    "transpileOnly": true
   }
 }
