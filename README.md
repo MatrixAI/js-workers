@@ -1,6 +1,7 @@
 # js-workers
 
-[![pipeline status](https://gitlab.com/MatrixAI/open-source/js-workers/badges/master/pipeline.svg)](https://gitlab.com/MatrixAI/open-source/js-workers/commits/master)
+staging:[![pipeline status](https://gitlab.com/MatrixAI/open-source/js-workers/badges/staging/pipeline.svg)](https://gitlab.com/MatrixAI/open-source/js-workers/commits/staging)
+master:[![pipeline status](https://gitlab.com/MatrixAI/open-source/js-workers/badges/master/pipeline.svg)](https://gitlab.com/MatrixAI/open-source/js-workers/commits/master)
 
 Workers is the library for multi-threading in MatrixAI's JavaScript/TypeScript applications. It is based on top of threads.js.
 
@@ -83,6 +84,26 @@ npm run docs
 See the docs at: https://matrixai.github.io/js-workers/
 
 ### Publishing
+
+Publishing is handled automatically by the staging pipeline.
+
+Prerelease:
+
+```sh
+# npm login
+npm version prepatch --preid alpha # premajor/preminor/prepatch
+git push --follow-tags
+```
+
+Release:
+
+```sh
+# npm login
+npm version patch # major/minor/patch
+git push --follow-tags
+```
+
+Manually:
 
 ```sh
 # npm login
