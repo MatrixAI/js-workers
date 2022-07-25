@@ -1,35 +1,35 @@
 # TYPE worker_manager_ops gauge
-worker_manager_ops{name="call overhead"} 855
-worker_manager_ops{name="parallel call overhead"} 436
-worker_manager_ops{name="parallel queue overhead"} 435
-worker_manager_ops{name="json stringify of 1 MiB of data"} 20
-worker_manager_ops{name="base64 of 1 MiB of data"} 1128
-worker_manager_ops{name="md5 Hash of 1 MiB of data"} 701
-worker_manager_ops{name="sha256 Hash of 1 MiB of data"} 1739
+worker_manager_ops{name="call overhead"} 859
+worker_manager_ops{name="parallel call overhead"} 435
+worker_manager_ops{name="parallel queue overhead"} 439
+worker_manager_ops{name="json stringify of 1 MiB of data"} 21
+worker_manager_ops{name="base64 of 1 MiB of data"} 1150
+worker_manager_ops{name="md5 Hash of 1 MiB of data"} 702
+worker_manager_ops{name="sha256 Hash of 1 MiB of data"} 1740
 worker_manager_ops{name="sha512 Hash of 1 MiB of data"} 636
-worker_manager_ops{name="transfer Overhead"} 771
-worker_manager_ops{name="slice-Copy of 1 MiB of data"} 6228
+worker_manager_ops{name="transfer Overhead"} 759
+worker_manager_ops{name="slice-Copy of 1 MiB of data"} 6400
 
 # TYPE worker_manager_margin gauge
-worker_manager_margin{name="call overhead"} 0.55
-worker_manager_margin{name="parallel call overhead"} 0.39
-worker_manager_margin{name="parallel queue overhead"} 0.39
-worker_manager_margin{name="json stringify of 1 MiB of data"} 1.76
-worker_manager_margin{name="base64 of 1 MiB of data"} 1.05
-worker_manager_margin{name="md5 Hash of 1 MiB of data"} 0.02
-worker_manager_margin{name="sha256 Hash of 1 MiB of data"} 0.03
-worker_manager_margin{name="sha512 Hash of 1 MiB of data"} 0.14
-worker_manager_margin{name="transfer Overhead"} 0.73
-worker_manager_margin{name="slice-Copy of 1 MiB of data"} 0.61
+worker_manager_margin{name="call overhead"} 0.41
+worker_manager_margin{name="parallel call overhead"} 0.61
+worker_manager_margin{name="parallel queue overhead"} 0.51
+worker_manager_margin{name="json stringify of 1 MiB of data"} 0.36
+worker_manager_margin{name="base64 of 1 MiB of data"} 0.83
+worker_manager_margin{name="md5 Hash of 1 MiB of data"} 0.03
+worker_manager_margin{name="sha256 Hash of 1 MiB of data"} 0.02
+worker_manager_margin{name="sha512 Hash of 1 MiB of data"} 0.19
+worker_manager_margin{name="transfer Overhead"} 0.69
+worker_manager_margin{name="slice-Copy of 1 MiB of data"} 0.94
 
 # TYPE worker_manager_samples counter
-worker_manager_samples{name="call overhead"} 87
-worker_manager_samples{name="parallel call overhead"} 88
+worker_manager_samples{name="call overhead"} 88
+worker_manager_samples{name="parallel call overhead"} 86
 worker_manager_samples{name="parallel queue overhead"} 86
-worker_manager_samples{name="json stringify of 1 MiB of data"} 38
-worker_manager_samples{name="base64 of 1 MiB of data"} 89
-worker_manager_samples{name="md5 Hash of 1 MiB of data"} 95
-worker_manager_samples{name="sha256 Hash of 1 MiB of data"} 96
+worker_manager_samples{name="json stringify of 1 MiB of data"} 39
+worker_manager_samples{name="base64 of 1 MiB of data"} 90
+worker_manager_samples{name="md5 Hash of 1 MiB of data"} 94
+worker_manager_samples{name="sha256 Hash of 1 MiB of data"} 97
 worker_manager_samples{name="sha512 Hash of 1 MiB of data"} 96
-worker_manager_samples{name="transfer Overhead"} 83
-worker_manager_samples{name="slice-Copy of 1 MiB of data"} 67
+worker_manager_samples{name="transfer Overhead"} 85
+worker_manager_samples{name="slice-Copy of 1 MiB of data"} 81

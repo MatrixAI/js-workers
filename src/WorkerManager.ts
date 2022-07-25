@@ -33,7 +33,7 @@ class WorkerManager<W extends ModuleMethods>
     logger?: Logger;
   }): Promise<WorkerManager<W>> {
     logger.info('Creating WorkerManager');
-    const workerManager = new WorkerManager({
+    const workerManager = new this({
       workerFactory,
       cores,
       logger,
