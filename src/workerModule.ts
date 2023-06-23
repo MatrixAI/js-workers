@@ -1,6 +1,5 @@
 import type { TransferDescriptor } from 'threads';
 import { Transfer } from 'threads';
-
 import { isWorkerRuntime } from 'threads';
 
 /**
