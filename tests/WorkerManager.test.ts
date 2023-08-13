@@ -1,10 +1,10 @@
-import type { WorkerModule } from '@/worker';
+import type { WorkerModule } from '#worker.js';
 import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
 import { destroyed } from '@matrixai/async-init';
-import WorkerManager from '@/WorkerManager';
-import * as errors from '@/errors';
-import * as testUtils from './utils';
+import * as testUtils from './utils.js';
+import WorkerManager from '#WorkerManager.js';
+import * as errors from '#errors.js';
 
 describe('WorkerManager', () => {
   const logger = new Logger('WorkerManager Test', LogLevel.WARN, [
