@@ -9,17 +9,19 @@
     "strictNullChecks": true,
     "noImplicitAny": false,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "module": "CommonJS",
+    "isolatedModules": true,
+    "moduleResolution": "NodeNext",
+    "module": "ESNext",
     "target": "ES2022",
     "baseUrl": "./src",
     "paths": {
-      "@": ["index"],
-      "@/*": ["*"]
+      "#*": ["*"]
     },
+    "skipLibCheck": true,
     "noEmit": true
   },
   "include": [
@@ -28,10 +30,5 @@
     "./tests/**/*",
     "./scripts/**/*",
     "./benches/**/*"
-  ],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"],
-    "transpileOnly": true,
-    "swc": true
-  }
+  ]
 }
