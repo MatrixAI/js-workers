@@ -1,10 +1,12 @@
-import type { WorkerModule } from '#worker.js';
-import { spawn, Worker, Transfer } from 'threads';
+// import type { WorkerModule } from '#worker.js';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
 import { destroyed } from '@matrixai/async-init';
 import * as testUtils from './utils.js';
+import { spawn, Worker, Transfer } from 'threads';
 import WorkerManager from '#WorkerManager.js';
 import * as errors from '#errors.js';
+
+type WorkerModule = any;
 
 describe('WorkerManager', () => {
   const logger = new Logger('WorkerManager Test', LogLevel.WARN, [
@@ -70,7 +72,7 @@ describe('WorkerManager', () => {
     expect(
       await workerManager.call(async (w) => {
         mainPid2 = process.pid;
-        const process2 = require('process');
+        const process2 = await import('node:process');
         mainPid3 = process2.pid;
         return await w.isRunningInWorker();
       }),

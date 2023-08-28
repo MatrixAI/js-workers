@@ -3,4 +3,5 @@ export { default as workerModule } from './workerModule.js';
 export * as errors from './errors.js';
 
 export type { default as WorkerManagerInterface } from './WorkerManagerInterface.js';
-export type { WorkerModule } from './workerModule.js';
+// export type { WorkerModule } from './workerModule.js';
+export type { ModuleMethods, ModuleThread, QueuedTask } from './types.js';

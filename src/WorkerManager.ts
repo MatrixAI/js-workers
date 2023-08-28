@@ -1,11 +1,14 @@
-import type { ModuleThread } from 'threads';
-import type { ModuleMethods } from 'threads/dist/types/master';
 import type WorkerManagerInterface from './WorkerManagerInterface.js';
-import type { QueuedTask } from 'threads/dist/master/pool-types';
-import { Pool } from 'threads';
+import type {
+  ModuleMethods,
+  ModuleThread,
+  QueuedTask,
+} from './types.js';
 import Logger from '@matrixai/logger';
 import { CreateDestroy, ready } from '@matrixai/async-init/CreateDestroy.js';
+import { Pool } from 'threads';
 import * as errors from './errors.js';
+
 
 @CreateDestroy()
 class WorkerManager<W extends ModuleMethods>
