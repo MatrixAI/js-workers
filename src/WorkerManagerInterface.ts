@@ -1,6 +1,8 @@
-import type { ModuleThread } from 'threads';
-import type { ModuleMethods } from 'threads/dist/types/master';
-import type { QueuedTask } from 'threads/dist/master/pool-types';
+import type {
+  ModuleMethods,
+  ModuleThread,
+  QueuedTask,
+} from './types.js';
 
 interface WorkerManagerInterface<W extends ModuleMethods> {
   destroy(options?: { force?: boolean }): Promise<void>;

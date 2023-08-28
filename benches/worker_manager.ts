@@ -1,11 +1,14 @@
-import type { WorkerModule } from '@/worker';
-import path from 'path';
-import crypto from 'crypto';
+import type { WorkerModule } from '#worker.js';
+import path from 'node:path';
+import url from 'node:url';
+import crypto from 'node:crypto';
 import b from 'benny';
 import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
-import WorkerManager from '@/WorkerManager';
-import { suiteCommon } from './utils';
+import { suiteCommon } from './utils/index.js';
+import WorkerManager from '#WorkerManager.js';
+
+const filePath = url.fileURLToPath(import.meta.url);
 
 const logger = new Logger('WorkerManager Bench', LogLevel.WARN, [
   new StreamHandler(),
@@ -22,7 +25,7 @@ async function main() {
   // 1 KiB of data is still too small
   const bytes = crypto.randomBytes(1024 * 1024);
   const summary = await b.suite(
-    path.basename(__filename, path.extname(__filename)),
+    path.basename(filePath, path.extname(filePath)),
     b.add('call overhead', async () => {
       // This calls a noop, this will show the overhead costs
       // All parallelised operation can never be faster than this
@@ -104,8 +107,11 @@ async function main() {
   return summary;
 }
 
-if (require.main === module) {
-  void main();
+if (import.meta.url.startsWith('file:')) {
+  const modulePath = url.fileURLToPath(import.meta.url);
+  if (process.argv[1] === modulePath) {
+    void main();
+  }
 }
 
 export default main;

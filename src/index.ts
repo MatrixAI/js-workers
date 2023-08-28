@@ -1,6 +1,7 @@
-export { default as WorkerManager } from './WorkerManager';
-export { default as workerModule } from './workerModule';
-export * as errors from './errors';
+export { default as WorkerManager } from './WorkerManager.js';
+export { default as workerModule } from './workerModule.js';
+export * as errors from './errors.js';
 
-export type { default as WorkerManagerInterface } from './WorkerManagerInterface';
-export type { WorkerModule } from './workerModule';
+export type { default as WorkerManagerInterface } from './WorkerManagerInterface.js';
+// export type { WorkerModule } from './workerModule.js';
+export type { ModuleMethods, ModuleThread, QueuedTask } from './types.js';
