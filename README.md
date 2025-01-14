@@ -1,8 +1,5 @@
 # js-workers
 
-staging:[![pipeline status](https://gitlab.com/MatrixAI/open-source/js-workers/badges/staging/pipeline.svg)](https://gitlab.com/MatrixAI/open-source/js-workers/commits/staging)
-master:[![pipeline status](https://gitlab.com/MatrixAI/open-source/js-workers/badges/master/pipeline.svg)](https://gitlab.com/MatrixAI/open-source/js-workers/commits/master)
-
 Workers is the library for multi-threading in MatrixAI's JavaScript/TypeScript applications. It is based on top of threads.js.
 
 Currently no support for Mobile OSes.
@@ -50,7 +47,7 @@ npm install --save @matrixai/workers
 
 ## Development
 
-Run `nix-shell`, and once you're inside, you can use:
+Run `nix develop`, and once you're inside, you can use:
 
 ```sh
 # install (or reinstall packages from package.json)
