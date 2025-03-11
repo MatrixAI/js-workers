@@ -1,40 +1,38 @@
-import type { ModuleThread } from 'threads';
-import type { ModuleMethods } from 'threads/dist/types/master';
-import type { QueuedTask } from 'threads/dist/master/pool-types';
-import type WorkerManagerInterface from './WorkerManagerInterface';
-import { Pool } from 'threads';
+import type { WorkerFactory, WorkerManifest, WorkerResult } from './types.js';
+import type { TransferListItem } from 'node:worker_threads';
 import Logger from '@matrixai/logger';
-import { CreateDestroy, ready } from '@matrixai/async-init/dist/CreateDestroy';
-import * as errors from './errors';
+import { CreateDestroy, ready } from '@matrixai/async-init/CreateDestroy.js';
+import { type WorkerTaskInformation } from './types.js';
+import * as errors from './errors.js';
+import WorkerPool from './WorkerPool.js';
 
 @CreateDestroy()
-class WorkerManager<W extends ModuleMethods>
-  implements WorkerManagerInterface<W>
-{
+class WorkerManager<Manifest extends WorkerManifest> {
   /**
-   * Creates the WorkerManager
-   * The workerFactory needs to be a callback:
-   * `() => spawn(new Worker(workerPath))`
-   * The `spawn` and `Worker` can be imported from `threads`
-   * The `workerPath` must point to a worker script
-   * The `workerPath` can be either an absolute path or relative path
-   * If it is a relative path, it has to be relative to the file location where
-   * the function expression is defined
-   * If `cores` is set to 0, this creates a useless worker pool
-   * Use `undefined` to mean using all cores
+   * Creates and initializes a new instance of WorkerManager.
+   *
+   * @param options - The configuration options for the WorkerManager.
+   * @param options.workerFactory - The factory for creating workers.
+   * @param options.manifest - The manifest defining the worker capabilities and operations.
+   * @param [options.cores=1] - The number of cores to allocate for workers. Defaults to 1.
+   * @param [options.logger=new Logger(this.name)] - An optional logger instance for logging activities. Defaults to a new logger.
+   * @return A promise that resolves to a new WorkerManager instance.
    */
-  public static async createWorkerManager<W extends ModuleMethods>({
+  public static async createWorkerManager<Manifest extends WorkerManifest>({
     workerFactory,
-    cores,
+    manifest,
+    cores = 1,
     logger = new Logger(this.name),
   }: {
-    workerFactory: () => Promise<ModuleThread<W>>;
+    workerFactory: WorkerFactory;
+    manifest: Manifest;
     cores?: number;
     logger?: Logger;
-  }): Promise<WorkerManager<W>> {
+  }): Promise<WorkerManager<Manifest>> {
     logger.info('Creating WorkerManager');
-    const workerManager = new this({
+    const workerManager = new this<Manifest>({
       workerFactory,
+      manifest,
       cores,
       logger,
     });
@@ -42,22 +40,58 @@ class WorkerManager<W extends ModuleMethods>
     return workerManager;
   }
 
-  protected pool: Pool<ModuleThread<W>>;
+  protected pool: WorkerPool;
   protected logger: Logger;
+  /**
+   * Methods exposes a fully typed interface for making calls using workers.
+   * It provides all the available methods provided by the manifest with proper types applied.
+   */
+  public methods: Manifest;
 
+  /**
+   * Constructs a new instance of the class using the provided parameters.
+   *
+   * @param config - The configuration for the constructor.
+   * @param config.workerFactory - The factory for creating worker instances.
+   * @param config.manifest - The manifest containing method definitions.
+   * @param config.cores - The number of cores to allocate for the worker pool.
+   * @param config.logger - The logger instance for logging messages.
+   */
   public constructor({
     workerFactory,
+    manifest,
     cores,
     logger,
   }: {
-    workerFactory: () => Promise<ModuleThread<W>>;
-    cores?: number;
+    workerFactory: WorkerFactory;
+    manifest: Manifest;
+    cores: number;
     logger: Logger;
   }) {
     this.logger = logger;
-    this.pool = Pool(workerFactory, cores);
+    this.pool = new WorkerPool(cores, workerFactory);
+    this.methods = new Proxy<Manifest>(manifest, {
+      get: (_, prop: string | symbol) => {
+        if (typeof prop === 'symbol') return;
+        return async (
+          data: WorkerResult,
+          transferList: Array<TransferListItem>,
+        ) => {
+          const result = await this.call({ type: prop, data, transferList });
+          if (result.transferList == null) return { data: result.data };
+          return result;
+        };
+      },
+    });
   }
 
+  /**
+   * Destroys the WorkerManager instance and terminates its associated pool.
+   *
+   * @param [params={}] - An optional configuration object.
+   * @param [params.force=false] - Indicates whether to forcefully terminate the pool.
+   * @return A promise that resolves when the destruction process is complete.
+   */
   public async destroy({
     force = false,
   }: { force?: boolean } = {}): Promise<void> {
@@ -66,23 +100,51 @@ class WorkerManager<W extends ModuleMethods>
     this.logger.info('Destroyed WorkerManager');
   }
 
+  /**
+   * Processes a worker task by enqueuing it for execution.
+   *
+   * @param task - The information about the worker task to be executed.
+   * @return A promise that resolves with the result of the worker task execution.
+   */
   @ready(new errors.ErrorWorkerManagerDestroyed())
-  public async call<T>(f: (worker: ModuleThread<W>) => Promise<T>): Promise<T> {
-    return await this.pool.queue(f);
+  public async call(task: WorkerTaskInformation): Promise<WorkerResult> {
+    return await this.queue(task);
   }
 
+  /**
+   * Enqueues a task to be processed by the worker pool.
+   *
+   * @param task - The task to be processed by the worker pool.
+   * @return A promise that resolves with the result of the task or rejects with an error if the task fails or cannot be processed.
+   */
   @ready(new errors.ErrorWorkerManagerDestroyed())
-  public queue<T>(
-    f: (worker: ModuleThread<W>) => Promise<T>,
-  ): QueuedTask<ModuleThread<W>, T> {
-    return this.pool.queue(f);
+  public queue(task: WorkerTaskInformation): Promise<WorkerResult> {
+    return new Promise((resolve, reject) => {
+      this.pool.runTask(task, (result, error) => {
+        if (error != null) return reject(error);
+        return resolve(result);
+      });
+    });
   }
 
+  /**
+   * Returns a promise that resolves when the pool status becomes 'idle',
+   * or rejects if the pool status changes to 'terminated' or an error occurs.
+   *
+   * @return A promise that resolves when the pool is idle or rejects with an error.
+   */
   @ready(new errors.ErrorWorkerManagerDestroyed())
   public async completed(): Promise<void> {
     return await this.pool.completed();
   }
 
+  /**
+   * Returns a promise that resolves when the pool status becomes 'idle',
+   * or rejects if the pool status becomes 'terminated'.
+   *
+   * @return A promise that resolves once the pool status is 'idle',
+   * or rejects if the pool status becomes 'terminated'.
+   */
   @ready(new errors.ErrorWorkerManagerDestroyed())
   public async settled() {
     return await this.pool.settled();

@@ -1,6 +1,4 @@
-export { default as WorkerManager } from './WorkerManager';
-export { default as workerModule } from './workerModule';
-export * as errors from './errors';
-
-export type { default as WorkerManagerInterface } from './WorkerManagerInterface';
-export type { WorkerModule } from './workerModule';
+export { default as WorkerManager } from './WorkerManager.js';
+export { expose } from './expose.js';
+export * as errors from './errors.js';
+export * from './types.js';

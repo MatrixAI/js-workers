@@ -1,11 +1,14 @@
-import type { WorkerModule } from '@/worker';
-import path from 'path';
-import crypto from 'crypto';
+import path from 'node:path';
+import url from 'node:url';
+import crypto from 'node:crypto';
+import { Worker } from 'node:worker_threads';
 import b from 'benny';
-import { spawn, Worker, Transfer } from 'threads';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
-import WorkerManager from '@/WorkerManager';
-import { suiteCommon } from './utils';
+import { suiteCommon } from './utils/index.js';
+import WorkerManager from '#WorkerManager.js';
+import workerManifest from '#worker.js';
+
+const filePath = url.fileURLToPath(import.meta.url);
 
 const logger = new Logger('WorkerManager Bench', LogLevel.WARN, [
   new StreamHandler(),
@@ -13,8 +16,10 @@ const logger = new Logger('WorkerManager Bench', LogLevel.WARN, [
 
 async function main() {
   const cores = 1;
-  const workerManager = await WorkerManager.createWorkerManager<WorkerModule>({
-    workerFactory: () => spawn(new Worker('../src/worker')),
+  const workerManager = await WorkerManager.createWorkerManager({
+    workerFactory: () =>
+      new Worker(path.join(filePath, '../../dist/worker.js')),
+    manifest: workerManifest,
     cores,
     logger,
   });
@@ -22,38 +27,28 @@ async function main() {
   // 1 KiB of data is still too small
   const bytes = crypto.randomBytes(1024 * 1024);
   const summary = await b.suite(
-    path.basename(__filename, path.extname(__filename)),
+    path.basename(filePath, path.extname(filePath)),
     b.add('call overhead', async () => {
       // This calls a noop, this will show the overhead costs
       // All parallelised operation can never be faster than this
       // Therefore any call that takes less time than the overhead cost
       // e.g. 1.5ms is not worth parallelising
-      await workerManager.call(async (w) => {
-        await w.sleep(0);
-      });
+      await workerManager.methods.sleep(0);
     }),
     b.add('parallel call overhead', async () => {
       // Assuming core count is 1
       // the performance should be half of `call overhead`
       await Promise.all([
-        workerManager.call(async (w) => {
-          await w.sleep(0);
-        }),
-        workerManager.call(async (w) => {
-          await w.sleep(0);
-        }),
+        workerManager.methods.sleep(0),
+        workerManager.methods.sleep(0),
       ]);
     }),
     b.add('parallel queue overhead', async () => {
       // This should be slightly faster than using call
       // This avoids an unnecessary wrapper into Promise
       await Promise.all([
-        workerManager.queue(async (w) => {
-          await w.sleep(0);
-        }),
-        workerManager.queue(async (w) => {
-          await w.sleep(0);
-        }),
+        workerManager.methods.sleep(0),
+        workerManager.methods.sleep(0),
       ]);
     }),
     b.add('json stringify of 1 MiB of data', () => {
@@ -89,10 +84,7 @@ async function main() {
         bytes.byteOffset,
         bytes.byteOffset + bytes.byteLength,
       );
-      await workerManager.call(async (w) => {
-        const outputAB = await w.transferBuffer(Transfer(inputAB));
-        return Buffer.from(outputAB);
-      });
+      await workerManager.methods.transferBuffer(inputAB, [inputAB]);
     }),
     b.add('slice-Copy of 1 MiB of data', () => {
       // Compare this to Transfer Overhead
@@ -104,8 +96,11 @@ async function main() {
   return summary;
 }
 
-if (require.main === module) {
-  void main();
+if (import.meta.url.startsWith('file:')) {
+  const modulePath = url.fileURLToPath(import.meta.url);
+  if (process.argv[1] === modulePath) {
+    void main();
+  }
 }
 
 export default main;

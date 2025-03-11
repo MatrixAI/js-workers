@@ -1,170 +1,172 @@
-import type { WorkerModule } from '@/worker';
-import { spawn, Worker, Transfer } from 'threads';
+import type { WorkerFactory, WorkerResult } from '#types.js';
+import { Worker } from 'node:worker_threads';
+import url from 'url';
+import path from 'node:path';
 import Logger, { LogLevel, StreamHandler } from '@matrixai/logger';
 import { destroyed } from '@matrixai/async-init';
-import WorkerManager from '@/WorkerManager';
-import * as errors from '@/errors';
-import * as testUtils from './utils';
+import WorkerManager from '#WorkerManager.js';
+import * as errors from '#errors.js';
+import workerManifest from '#worker.js';
+
+const dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 describe('WorkerManager', () => {
   const logger = new Logger('WorkerManager Test', LogLevel.WARN, [
     new StreamHandler(),
   ]);
+
+  const workerFactory: WorkerFactory = () => {
+    return new Worker(path.join(dirname, '../dist/worker.js'));
+  };
+
+  let workerManager: WorkerManager<typeof workerManifest>;
+
+  afterEach(async () => {
+    await workerManager?.destroy();
+  });
+
   test('async construction and async destroy', async () => {
-    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>(
-      {
-        workerFactory: () => spawn(new Worker('../src/worker')),
-        logger,
-      },
-    );
+    workerManager = await WorkerManager.createWorkerManager({
+      workerFactory,
+      manifest: workerManifest,
+      cores: 1,
+      logger,
+    });
     expect(workerManager[destroyed]).toBe(false);
-    expect(await workerManager.call(async () => 1)).toBe(1);
+    expect(await workerManager.call({ type: 'test', data: undefined })).toEqual(
+      { data: 'hello world!' },
+    );
     await workerManager.destroy();
     expect(workerManager[destroyed]).toBe(true);
-    void expect(workerManager.call(async () => 1)).rejects.toThrow(
-      errors.ErrorWorkerManagerDestroyed,
-    );
+    await expect(
+      workerManager.call({ type: 'test', data: undefined }),
+    ).rejects.toThrow(errors.ErrorWorkerManagerDestroyed);
   });
-  test('starting with 0 worker cores is useless', async () => {
-    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>(
-      {
-        workerFactory: () => spawn(new Worker('../src/worker')),
+  test('starting with 0 worker cores will throw', async () => {
+    await expect(
+      WorkerManager.createWorkerManager({
+        workerFactory,
+        manifest: workerManifest,
         cores: 0,
         logger,
-      },
-    );
-    // The call will never resolve, so we timeout in 1 second
-    expect(
-      await Promise.race([
-        workerManager.call(async () => 1),
-        testUtils.sleep(1000),
-      ]),
-    ).not.toBe(1);
-    // Force destory because of the pending call that never resolves
-    await workerManager.destroy({ force: true });
+      }),
+    ).rejects.toThrow(errors.ErrorWorkerPoolInvalidWorkers);
   });
   test('start with 1 worker core', async () => {
-    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>(
-      {
-        workerFactory: () => spawn(new Worker('../src/worker')),
-        cores: 1,
-        logger,
-      },
+    workerManager = await WorkerManager.createWorkerManager({
+      workerFactory,
+      manifest: workerManifest,
+      cores: 1,
+      logger,
+    });
+    expect(await workerManager.call({ type: 'test', data: undefined })).toEqual(
+      { data: 'hello world!' },
     );
-    expect(await workerManager.call(async () => 1)).toBe(1);
     await workerManager.destroy();
-  });
-  test('call runs in the main thread', async () => {
-    const mainPid1 = process.pid;
-    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>(
-      {
-        workerFactory: () => spawn(new Worker('../src/worker')),
-        cores: 1,
-        logger,
-      },
-    );
-    let mainPid2: number;
-    let mainPid3: number;
-    // Only `w.f()` functions are running in the worker threads
-    // the callback passed to `call` is still running in the main thread
-    expect(
-      await workerManager.call(async (w) => {
-        mainPid2 = process.pid;
-        const process2 = require('process');
-        mainPid3 = process2.pid;
-        return await w.isRunningInWorker();
-      }),
-    ).toBe(true);
-    await workerManager.destroy();
-    expect(mainPid2!).toBe(mainPid1);
-    expect(mainPid3!).toBe(mainPid1);
   });
   test('can await a subset of tasks', async () => {
     // Use all possible cores
     // if you only use 1 core, this test will be much slower
-    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>(
-      {
-        workerFactory: () => spawn(new Worker('../src/worker')),
-        logger,
-      },
-    );
-    const task = workerManager.call(async (w) => {
-      return await w.sleep(500);
+    workerManager = await WorkerManager.createWorkerManager({
+      workerFactory,
+      manifest: workerManifest,
+      cores: 1,
+      logger,
     });
+    const task = workerManager.call({ type: 'sleep', data: 500 });
     const taskCount = 5;
     const tasks: Array<Promise<unknown>> = [];
     for (let i = 0; i < taskCount; i++) {
-      tasks.push(
-        workerManager.call(async (w) => {
-          return await w.sleep(500);
-        }),
-      );
+      tasks.push(workerManager.call({ type: 'sleep', data: 500 }));
     }
     const rs = await Promise.all(tasks);
     expect(rs.length).toBe(taskCount);
-    expect(rs.every((x) => x === undefined)).toBe(true);
+    expect(rs.every((x: WorkerResult) => x.data === undefined)).toBe(true);
     const r = await task;
-    expect(r).toBeUndefined();
+    expect(r).toEqual({ data: undefined });
     await workerManager.destroy();
   });
   test('queueing up tasks', async () => {
     // Use all possible cores
     // if you only use 1 core, this test will be much slower
-    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>(
-      {
-        workerFactory: () => spawn(new Worker('../src/worker')),
-        logger,
-      },
-    );
-    const t1 = workerManager.queue(async (w) => await w.sleep(500));
-    const t2 = workerManager.queue(async (w) => await w.sleep(500));
-    const t3 = workerManager.queue(async (w) => await w.sleep(500));
-    const t4 = workerManager.queue(async (w) => await w.sleep(500));
+    workerManager = await WorkerManager.createWorkerManager({
+      workerFactory,
+      manifest: workerManifest,
+      cores: 1,
+      logger,
+    });
+    const t1 = workerManager.queue({ type: 'sleep', data: 500 });
+    const t2 = workerManager.queue({ type: 'sleep', data: 500 });
+    const t3 = workerManager.queue({ type: 'sleep', data: 500 });
+    const t4 = workerManager.queue({ type: 'sleep', data: 500 });
     await workerManager.completed();
-    expect(await t1).toBeUndefined();
-    expect(await t2).toBeUndefined();
-    expect(await t3).toBeUndefined();
-    expect(await t4).toBeUndefined();
-    void workerManager.queue(async (w) => await w.sleep(500));
-    void workerManager.queue(async (w) => await w.sleep(500));
-    void workerManager.queue(async (w) => await w.sleep(500));
-    void workerManager.queue(async (w) => await w.sleep(500));
-    const es = await workerManager.settled();
-    expect(es.length).toBe(0);
+    expect(await t1).toEqual({ data: undefined });
+    expect(await t2).toEqual({ data: undefined });
+    expect(await t3).toEqual({ data: undefined });
+    expect(await t4).toEqual({ data: undefined });
+    void workerManager.queue({ type: 'sleep', data: 500 });
+    void workerManager.queue({ type: 'sleep', data: 500 });
+    void workerManager.queue({ type: 'sleep', data: 500 });
+    void workerManager.queue({ type: 'sleep', data: 500 });
+    await workerManager.settled();
     await workerManager.destroy();
   });
   test('zero-copy buffer transfer', async () => {
-    const workerManager = await WorkerManager.createWorkerManager<WorkerModule>(
-      {
-        workerFactory: () => spawn(new Worker('../src/worker')),
-        cores: 1,
-        logger,
-      },
-    );
-    const buffer = await workerManager.call(async (w) => {
-      // Start with a Node Buffer that is "pooled"
-      const inputBuffer = Buffer.from('hello 1');
-      // Slice copy out the ArrayBuffer
-      const input = inputBuffer.buffer.slice(
-        inputBuffer.byteOffset,
-        inputBuffer.byteOffset + inputBuffer.byteLength,
-      );
-      // When the underlying ArrayBuffer is detached
-      // this Buffer's byteLength will also become 0
-      const inputBuffer_ = Buffer.from(input);
-      expect(inputBuffer_.byteLength).toBe(input.byteLength);
-      // Zero-copy transfer moves "ownership"
-      // input is detached from main thread
-      // output is detached from worker thread
-      const output = await w.transferBuffer(Transfer(input));
-      // Detached ArrayBuffers have byte lengths of 0
-      expect(input.byteLength).toBe(0);
-      expect(inputBuffer_.byteLength).toBe(0);
-      // Zero-copy wrap to use Node Buffer API
-      const outputBuffer = Buffer.from(output);
-      return outputBuffer;
+    workerManager = await WorkerManager.createWorkerManager({
+      workerFactory,
+      manifest: workerManifest,
+      cores: 1,
+      logger,
     });
-    expect(buffer).toEqual(Buffer.from('hello 2'));
+    // Creating a new buffer
+    const inputBuffer = Buffer.from('hello 1');
+    // Extracting the underlying ArrayBuffer
+    const input = inputBuffer.buffer.slice(
+      inputBuffer.byteOffset,
+      inputBuffer.byteOffset + inputBuffer.byteLength,
+    );
+    // Making call with transfer
+    const output = await workerManager.call({
+      type: 'transferBuffer',
+      data: input,
+      transferList: [input],
+    });
+    // The input ArrayBuffer is detached so the length is now 0
+    expect(input.byteLength).toBe(0);
+    // The output should be filled with 0xF
+    expect(Buffer.from(output.data as ArrayBuffer)).toEqual(
+      Buffer.alloc(inputBuffer.byteLength, 0xf),
+    );
+
+    await workerManager.destroy();
+  });
+
+  test('proxy', async () => {
+    const workerManager = await WorkerManager.createWorkerManager<
+      typeof workerManifest
+    >({
+      workerFactory,
+      cores: 1,
+      manifest: workerManifest,
+      logger,
+    });
+    expect(await workerManager.methods.test()).toEqual({
+      data: 'hello world!',
+    });
+    expect(await workerManager.methods.add({ a: 1, b: 2 })).toEqual({
+      data: 3,
+    });
+    expect(await workerManager.methods.sub({ a: 1, b: 2 })).toEqual({
+      data: -1,
+    });
+    expect(await workerManager.methods.fac(5)).toEqual({ data: 120 });
+    expect(await workerManager.methods.sleep(10)).toEqual({ data: undefined });
+    const arrayBuffer = new ArrayBuffer(100);
+    const result = await workerManager.methods.transferBuffer(arrayBuffer, [
+      arrayBuffer,
+    ]);
+    expect(new Uint8Array(result.data)).toEqual(new Uint8Array(100).fill(0xf));
+
     await workerManager.destroy();
   });
 });
