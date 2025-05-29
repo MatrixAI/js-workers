@@ -1,10 +1,13 @@
 # js-workers
 
-Workers is the library for multi-threading in MatrixAI's JavaScript/TypeScript applications. It is based on top of threads.js.
+Workers is the library for multi-threading in MatrixAI's JavaScript/TypeScript
+applications. It is based on top of threads.js.
 
 Currently no support for Mobile OSes.
 
-Note that only `ArrayBuffer` can be zero-copy transferred to the worker threads. This means if you are wroking with Node `Buffer` you must first slice and copy the `ArrayBuffer` out of the Node `Buffer`.
+Note that only `ArrayBuffer` can be zero-copy transferred to the worker threads.
+This means if you are wroking with Node `Buffer` you must first slice and copy
+the `ArrayBuffer` out of the Node `Buffer`.
 
 ```ts
 const b = Buffer.from('hello world');
@@ -70,7 +73,9 @@ npm run lintfix
 npm run bench
 ```
 
-View benchmarks here: https://github.com/MatrixAI/js-workers/blob/master/benches/results/WorkerManager.chart.html with https://raw.githack.com/
+View benchmarks here:
+https://github.com/MatrixAI/js-workers/blob/master/benches/results/WorkerManager.chart.html
+with https://raw.githack.com/
 
 ### Docs Generation
 
